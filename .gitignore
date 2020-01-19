@@ -1,0 +1,3 @@
+.DS_STORE
+client/dist/bundle.js
+node_modules/
