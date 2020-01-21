@@ -49,23 +49,7 @@ router.post("/initsocket", (req, res) => {
 router.get('/joinGame', auth.ensureLoggedIn, (req, res) => {
   Game.findOne({creator_name: req.query.creator_name}).then((game) => {
       res.send(game._id)
-    })
-  // Game.findOne({creator_name: req.query.creator_name}).then((game) => {
-  //   console.log(Game)
-  //   res.send(game._id)
-
-  // })
-  
-})
-
-// require game_id and content
-router.post('/sentences', auth.ensureLoggedIn, (req, res) => {
-  const newSentence = new Sentence({
-    game_id: req.body.game_id,
-    writer: req.user._id,
-    content: req.body.content
-
-  }) 
+    }) 
 })
 
 router.post('/newgame', auth.ensureLoggedIn, (req, res) => {
@@ -77,6 +61,23 @@ router.post('/newgame', auth.ensureLoggedIn, (req, res) => {
   });
   newGame.save().then((game) => res.send(game._id));
 });
+
+// require game_id and content
+router.post('/sentences', auth.ensureLoggedIn, (req, res) => {
+  const newSentence = new Sentence({
+    game_id: req.body.game_id,
+    writer: req.user._id,
+    content: req.body.content
+
+  }) 
+  newSentence.save().then((sentence) => res.send(sentence.content));
+})
+
+router.get('getSentence', auth.ensureLoggedIn, (req, res) => {
+  Sentence.find({game_id: req.query.game_id}).then((sentences) => {
+    res.send(sentences) //return lists of Sentence objects
+  });
+})
 
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);

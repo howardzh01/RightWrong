@@ -24,6 +24,7 @@ const express = require("express"); // backend framework for our node server.
 const session = require("express-session"); // library that stores info about each connected user
 const mongoose = require("mongoose"); // library to connect to MongoDB
 const path = require("path"); // provide utilities for working with file and directory paths
+require('dotenv').config();
 
 const api = require("./api");
 const auth = require("./auth");
@@ -33,7 +34,7 @@ const socket = require("./server-socket");
 
 // Server configuration below
 // TODO change connection URL after setting up your team database
-const mongoConnectionURL = "mongodb+srv://admin:VhELXaO7lTFj1mAg@cluster0-wubbs.mongodb.net/test?retryWrites=true&w=majority";
+const mongoConnectionURL = process.env.ATLAS_SRV
 // TODO change database name to the name you chose
 const databaseName = "rightwrong";
 
@@ -57,7 +58,7 @@ app.use(express.json());
 // set up a session, which will persist login data across requests
 app.use(
   session({
-    secret: "session-secret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })

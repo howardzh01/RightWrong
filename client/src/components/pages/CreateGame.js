@@ -35,16 +35,17 @@ class CreateGame extends Component {
   render() {
     return (
       <> 
-        <h1> Create Game</h1>
-        Type name of the game  
-        <div> 
-            <input
-                type="text"
-                value={this.state.inputText}
-                onChange={this.handleInputChange}
-            />  
-            <button type="submit" onClick={this.addNewGame}>Submit</button>
-          </div>
+        <div className = 'subtitle'> Create Game </div>
+        <div>Type name of the game  </div>
+        
+        <input
+          type="text"
+          className="NewPostInput-input"
+          value={this.state.inputText}
+          onChange={this.handleInputChange}   
+          
+        /> 
+        <button type="submit" onClick={this.addNewGame} className="NewPostInput-button u-pointer" >Submit</button> 
       </>
         
     );

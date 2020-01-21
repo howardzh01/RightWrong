@@ -6,7 +6,6 @@ class Game extends Component {
     super(props);
     this.state = {
         inputText: "",
-        sentences: [],
     };
 
   }
@@ -25,12 +24,9 @@ class Game extends Component {
   }
 
   submitSentence = () => {
-    const body = {game_id: this.props.game_id}
-    post("/api/sentences", body)
-    const { sentences, inputText } = this.state;
-    const newTodos = todos.concat([inputText]);
+    const body = {game_id: this.props.game_id, content: this.state.inputText}; //gameid is undefined for some reason
+    post("/api/sentences", body);
     this.setState({
-      todos: newTodos,
       inputText: ""
     });
   };
@@ -38,8 +34,9 @@ class Game extends Component {
   render() {
     return (
       <> 
-        console.log('hello')
-        console.log({this.props.game_id})
+        <div>
+
+        </div>
         <div>
             {this.props.game_id}
             Submit Sentence
