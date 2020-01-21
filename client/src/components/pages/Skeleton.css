@@ -1,7 +1,8 @@
 .container {
     margin: auto;
-    width: 1000px;
-    height: 500px;
+    width: 600px;
+    height: 300px;
+    display: flex;
     /* background-color: #efefef; */
   }
   
@@ -16,8 +17,8 @@
   
   .margin.container .card {
     margin: auto;
-    margin-top: 50px;
-    margin-bottom: 100px;
+    text-decoration: none;
+    color: black;
   }
   
   .card {
@@ -28,7 +29,7 @@
     border: 10px;
     border-radius: 50px;
     text-align: center;
-    line-height: 75px;
+    line-height: 100px;
     font-size: 40px;
     font-family: 'Dancing Script'
   }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { Link } from "@reach/router";
 
 import "../../utilities.css";
 import "./Skeleton.css";
@@ -21,8 +21,8 @@ class Skeleton extends Component {
       <> 
         <div class = "subtitle"> Right Wrong: An Interactive Story Writing Game</div>
         <div class="margin container"> 
-          <div class="card one"> Create Story</div>
-          <div class="card two"> Join a Game</div>
+          <Link to= "/JoinGame/" className ="card one"> Create Story</Link>
+          <Link to = "/CreateGame/" class="card two"> Join a Game</Link>
         </div>
         <hr class = "horizontal-line"></hr>
         <div class = "subtitle"> How it works </div>
@@ -38,12 +38,12 @@ class Skeleton extends Component {
 
 
 
-        {/* how to test if icon works */}
-        <h2 class = 'document'> What you need to change</h2>
+
+        {/* <h2 class = 'document'> What you need to change</h2>
         <ul>
           <li>Change the Frontend CLIENT_ID for Google Auth (Skeleton.js)</li>
           <li>Change the Server CLIENT_ID for Google Auth (auth.js)</li>
-        </ul>
+        </ul> */}
       </>
       
     );

@@ -69,7 +69,7 @@ class NavBar extends Component {
             </Link>
           )}
 
-          {this.props.userId ? (
+          {this.state.userId ? (
             <GoogleLogout
               clientId={GOOGLE_CLIENT_ID}
               buttonText="Logout"

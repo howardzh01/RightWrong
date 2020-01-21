@@ -11,6 +11,8 @@ const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
+const Game = require("./models/game");
+const Sentence = require("./model/sentence");
 
 // import authentication library
 const auth = require("./auth");
@@ -43,9 +45,36 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 // anything else falls to this "not found" case
-router.post("/CreateGame")
-router.post("/JoinGame")
-router.get("/ongoingGames")
+
+router.get('/joinGame', auth.ensureLoggedIn, (req, res) => {
+  Game.findOne({creator_name: req.query.creator_name}).then((game) => {
+    res.send(game._id)
+
+  })
+  
+})
+
+// require game_id and content
+router.post('/sentences', auth.ensureLoggedIn, (req, res) => {
+  const newSentence = new Sentence({
+    game_id: req.body.game_id,
+    writer: req.user._id,
+    content: req.body.content
+
+  })
+  
+
+})
+
+router.post("/newgame", auth.ensureLoggedIn, (req, res) => {
+  const newGame = new Game({
+    game_id: req.user._id, //better id 
+    creator_name: req.user.name,
+    content: req.body.content,
+  });
+
+  newGame.save().then((game) => res.send(game));
+});
 
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);

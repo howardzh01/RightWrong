@@ -5,6 +5,7 @@ import Skeleton from "./pages/Skeleton.js";
 import Profile from "./pages/Profile.js";
 import CreateGame from "./pages/CreateGame.js";
 import JoinGame from "./pages/JoinGame.js";
+import Game from "./pages/Game.js";
 
 import "../utilities.css";
 
@@ -22,6 +23,7 @@ class App extends Component {
     super(props);
     this.state = {
       userId: undefined,
+      game_id: undefined,
     };
   }
 
@@ -48,6 +50,10 @@ class App extends Component {
     post("/api/logout");
   };
 
+  setGameId = (game_id) => {
+    this.setState({game_id})
+  }
+
   render() {
     return (
       <>
@@ -59,8 +65,9 @@ class App extends Component {
         <Router>
           <Skeleton path="/"/>
           <Profile path="/profile" />
-          <JoinGame path = "/JoinGame" />
-          <CreateGame path = '/CreateGame'/>
+          <JoinGame path = "/JoinGame" setGame = {this.setGameId}/>
+          <CreateGame path = '/CreateGame' setGame = {this.setGameId}/>
+          <Game path = '/Game' game_id = {this.state.game_id}/>
           <NotFound default />
         </Router>
       </>
