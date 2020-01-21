@@ -1,11 +1,12 @@
 .NavBar-container {
   padding: var(--s) var(--m);
-  background-color: var(--primary);
+  background-color: #ccccff;
+
 }
 
 .NavBar-title,
 .NavBar-link:visited {
-  color: var(--white);
+  color: bab86c;
   font-size: 20px;
   opacity: 0.6;
   text-decoration: none;
@@ -30,7 +31,7 @@
 
 .NavBar-link,
 .NavBar-link:visited {
-  color: var(--white);
+  color: bab86c;;
   opacity: 0.6;
   text-decoration: none;
 }

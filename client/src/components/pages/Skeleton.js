@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
+
 
 import "../../utilities.css";
 import "./Skeleton.css";
-
-//TODO: REPLACE WITH YOUR OWN CLIENT_ID
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
 class Skeleton extends Component {
   constructor(props) {
@@ -20,19 +17,32 @@ class Skeleton extends Component {
 
   render() {
     return (
+
       <> 
+        <div class = "subtitle"> Right Wrong: An Interactive Story Writing Game</div>
         <div class="margin container"> 
           <div class="card one"> Create Story</div>
           <div class="card two"> Join a Game</div>
         </div>
+        <hr class = "horizontal-line"></hr>
+        <div class = "subtitle"> How it works </div>
+        <div class = 'centeredText'>
+          <ol>
+            <li>A player completes a setence and writes the beginning of the next sentence</li>
+            <li>The next player finishes that sentence and starts the next one</li>
+            <li>After everyone writes one sentence, the complete story is revealed</li>
+            <li>Did they <span class = 'italics'>right wrong? </span></li>
+          </ol>
+        </div>
+        
+
+
 
         {/* how to test if icon works */}
         <h2 class = 'document'> What you need to change</h2>
         <ul>
           <li>Change the Frontend CLIENT_ID for Google Auth (Skeleton.js)</li>
           <li>Change the Server CLIENT_ID for Google Auth (auth.js)</li>
-          <li>Change the Database SRV for Atlas (server.js)</li>
-          <li>Change the Database Name for MongoDB (server.js)</li>
         </ul>
       </>
       

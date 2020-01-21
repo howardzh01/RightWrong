@@ -49,13 +49,18 @@ class NavBar extends Component {
   render() {
     return (
       <nav className="NavBar-container">
+        {/* <img src="../../../dist/favicon.jpg"> </img> */}
         <Link to="/" className="NavBar-title">
             Right Wrong
         </Link>
         <div className="NavBar-linkContainer u-inlineBlock">
           
-          <Link to="/chat/" className="NavBar-link">
+          <Link to="/JoinGame/" className="NavBar-link">
             Join Game
+          </Link>
+
+          <Link to="/CreateGame/" className="NavBar-link">
+            Create Game
           </Link>
 
           {this.state.userId && (

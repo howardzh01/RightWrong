@@ -3,6 +3,8 @@ import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
 import Profile from "./pages/Profile.js";
+import CreateGame from "./pages/CreateGame.js";
+import JoinGame from "./pages/JoinGame.js";
 
 import "../utilities.css";
 
@@ -57,6 +59,8 @@ class App extends Component {
         <Router>
           <Skeleton path="/"/>
           <Profile path="/profile" />
+          <JoinGame path = "/JoinGame" />
+          <CreateGame path = '/CreateGame'/>
           <NotFound default />
         </Router>
       </>
