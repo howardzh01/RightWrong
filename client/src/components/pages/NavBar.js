@@ -64,9 +64,12 @@ class NavBar extends Component {
           </Link>
 
           {this.state.userId && (
-            <Link to={`/profile/${this.state.userId}`} className="NavBar-link">
-              Profile
-            </Link>
+            <Link to= {`/Profile/${this.state.userId}`}className="NavBar-link">Profile</Link>
+            
+
+            // <Link to={`/profile/${this.state.userId}`} className="NavBar-link">
+            //   Profile
+            // </Link>
           )}
 
           {this.state.userId ? (

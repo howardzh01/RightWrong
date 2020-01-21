@@ -7,6 +7,7 @@ import CreateGame from "./pages/CreateGame.js";
 import JoinGame from "./pages/JoinGame.js";
 import Game from "./pages/Game.js";
 
+
 import "../utilities.css";
 
 import { socket } from "../client-socket.js";
@@ -64,11 +65,11 @@ class App extends Component {
         />
         <Router>
           <Skeleton path="/"/>
-          <Profile path="/profile" />
+          <Profile path="/Profile/:userID"/>
           <JoinGame path = "/JoinGame" setGame = {this.setGameId}/>
           <CreateGame path = '/CreateGame' setGame = {this.setGameId}/>
           <Game path = '/Game' game_id = {this.state.game_id}/>
-          <NotFound default />
+          <NotFound default userId = {this.state.userId}/>
         </Router>
       </>
     );

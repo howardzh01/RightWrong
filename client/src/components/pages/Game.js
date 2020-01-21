@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { get, post } from "../../utilities";
 
+import "./CreateGame.css";
+
 class Game extends Component {
   constructor(props) {
     super(props);
@@ -35,9 +37,6 @@ class Game extends Component {
     return (
       <> 
         <div>
-
-        </div>
-        <div>
             {this.props.game_id}
             Submit Sentence
         </div>
@@ -45,8 +44,9 @@ class Game extends Component {
             type="text"
             value={this.state.inputText}
             onChange={this.handleInputChange}
+            className = "css-input"
         />  
-        <button type="submit" onClick={this.submitSentence}>Submit</button>
+        <button type="submit" onClick={this.submitSentence} className = "myButton">Submit</button>
 
       </>
         

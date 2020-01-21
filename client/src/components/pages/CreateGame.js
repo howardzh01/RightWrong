@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { get, post } from "../../utilities";
 import { Redirect } from "react-router-dom";
 
+import "./CreateGame.css";
+
 class CreateGame extends Component {
   constructor(props) {
     super(props);
@@ -35,17 +37,20 @@ class CreateGame extends Component {
   render() {
     return (
       <> 
-        <div className = 'subtitle'> Create Game </div>
-        <div>Type name of the game  </div>
-        
+        <div className = 'subtitle' > Create Game </div>
+        <div className = 'centeredText'>
+        <div> Enter game title  </div>
+        <div> 
         <input
           type="text"
-          className="NewPostInput-input"
+          className="css-input"
           value={this.state.inputText}
           onChange={this.handleInputChange}   
           
         /> 
-        <button type="submit" onClick={this.addNewGame} className="NewPostInput-button u-pointer" >Submit</button> 
+        <button type="submit" onClick={this.addNewGame} className = "myButton">Submit</button> 
+        </div>
+        </div>
       </>
         
     );

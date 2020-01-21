@@ -46,6 +46,12 @@ router.post("/initsocket", (req, res) => {
 
 // anything else falls to this "not found" case
 
+router.get("/user", (req, res) => {
+  User.findById(req.query.userid).then((user) => {
+    res.send(user);
+  });
+});
+
 router.get('/joinGame', auth.ensureLoggedIn, (req, res) => {
   Game.findOne({creator_name: req.query.creator_name}).then((game) => {
       res.send(game._id)

@@ -3,6 +3,8 @@ import { get } from "../../utilities";
 import { Link } from "@reach/router";
 import { Redirect } from "react-router-dom";
 
+import "./JoinGame.css";
+
 
 class JoinGame extends Component {
   constructor(props) {
@@ -38,19 +40,21 @@ class JoinGame extends Component {
   };
 
   render() {
-    
     return (
         <>  
-            <div> Enter Creator Name</div>
-            <div>   
-                <input
-                    type="text"
-                    value={this.state.inputText}
-                    onChange={this.handleInputChange}
-                />  
-                <button type="submit" onClick={this.submitGameRequest}>Submit</button>
-            </div>
-            <Link to = "/Game/"> hello </Link>
+          <div className = 'subtitle'> Join Game </div>
+          <div className = 'centeredText'>   
+          <div> Enter Name of Who You Want to Play With</div>
+          <div>
+          <input
+          type="text"
+          className="css-input"
+          value={this.state.inputText} 
+          onChange={this.handleInputChange}
+          />  
+          <button type="submit" onClick={this.submitGameRequest} className = 'myButton'>Submit</button>
+          </div>
+          </div>
         </>
     );
   }

@@ -21,14 +21,14 @@ class Skeleton extends Component {
       <> 
         <div class = "subtitle"> Right Wrong: An Interactive Story Writing Game</div>
         <div class="margin container"> 
-          <Link to= "/JoinGame/" className ="card one"> Create Story</Link>
-          <Link to = "/CreateGame/" class="card two"> Join a Game</Link>
+          <Link to= "/CreateGame/" className ="card one"> Create Story</Link>
+          <Link to = "/JoinGame/" class="card two"> Join a Game</Link>
         </div>
         <hr class = "horizontal-line"></hr>
         <div class = "subtitle"> How it works </div>
         <div class = 'centeredText'>
           <ol>
-            <li>A player completes a setence and writes the beginning of the next sentence</li>
+            <li>A player completes a sentence and writes the beginning of the next sentence</li>
             <li>The next player finishes that sentence and starts the next one</li>
             <li>After everyone writes one sentence, the complete story is revealed</li>
             <li>Did they <span class = 'italics'>right wrong? </span></li>
