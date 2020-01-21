@@ -38,6 +38,12 @@ class Game extends Component {
   render() {
     return (
       <> 
+        console.log('hello')
+        console.log({this.props.game_id})
+        <div>
+            {this.props.game_id}
+            Submit Sentence
+        </div>
         <input
             type="text"
             value={this.state.inputText}

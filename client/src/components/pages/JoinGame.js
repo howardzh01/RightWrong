@@ -13,12 +13,7 @@ class JoinGame extends Component {
   }
 
   componentDidMount() {
-    document.title = "Game"; //hows componentDidMount special
-    // get("/api/ongoingGames").then((gameObjs) => {
-    //     gameObjs.map((gameObj) => {
-    //       this.setState({ stories: this.state.stories.concat([gameObj])});
-    //     });
-    // })
+    document.title = "Join!!!"; 
   }
 
   handleInputChange = (event) =>{
@@ -35,7 +30,7 @@ class JoinGame extends Component {
     //need to handle invalid inputs with failed promise
     get("/api/joinGame", query).then((game_id) => {
         this.props.setGame(game_id);
-        return <Redirect to={`/Game`} />
+        window.location.replace("/Game");
     })
     this.setState({
       inputText: ""

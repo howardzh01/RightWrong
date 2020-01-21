@@ -12,7 +12,7 @@ const express = require("express");
 // import models so we can interact with the database
 const User = require("./models/user");
 const Game = require("./models/game");
-const Sentence = require("./model/sentence");
+const Sentence = require("./models/sentence");
 
 // import authentication library
 const auth = require("./auth");
@@ -48,9 +48,13 @@ router.post("/initsocket", (req, res) => {
 
 router.get('/joinGame', auth.ensureLoggedIn, (req, res) => {
   Game.findOne({creator_name: req.query.creator_name}).then((game) => {
-    res.send(game._id)
+      res.send(game._id)
+    })
+  // Game.findOne({creator_name: req.query.creator_name}).then((game) => {
+  //   console.log(Game)
+  //   res.send(game._id)
 
-  })
+  // })
   
 })
 
@@ -61,19 +65,17 @@ router.post('/sentences', auth.ensureLoggedIn, (req, res) => {
     writer: req.user._id,
     content: req.body.content
 
-  })
-  
-
+  }) 
 })
 
-router.post("/newgame", auth.ensureLoggedIn, (req, res) => {
+router.post('/newgame', auth.ensureLoggedIn, (req, res) => {
   const newGame = new Game({
-    game_id: req.user._id, //better id 
+    game_name: req.body.game_name,
     creator_name: req.user.name,
-    content: req.body.content,
+    creator_id: req.user._id,
+    content: [],
   });
-
-  newGame.save().then((game) => res.send(game));
+  newGame.save().then((game) => res.send(game._id));
 });
 
 router.all("*", (req, res) => {

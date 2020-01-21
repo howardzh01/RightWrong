@@ -9,4 +9,3 @@ const SentenceSchema = new mongoose.Schema({
 
 // compile model from schema
 module.exports = mongoose.model("sentence", SentenceSchema);
-d
