@@ -1,17 +1,28 @@
 import React, { Component } from "react";
 import { get, post } from "../../utilities";
+import Judge from "../modules/Judge.js"
+import Player from "../modules/Player.js"
 
 import "./CreateGame.css";
+
 
 class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        inputText: "",
-        game_is_finished: false,
-        sentence_arr: [],
+      inputText: "",
+      judge: this.props.game.players[0],
+      round_number: 1,
     };
-
+    // get('/getGame').then((game) => {
+    //   this.state = {
+    //     inputText: "",
+    //     game_is_finished: false,
+    //     judge: game.players[0],
+    //     round_number: 1,
+    //     game: game,
+    //   };
+    // });
   }
 
   componentDidMount() {
@@ -20,62 +31,43 @@ class Game extends Component {
 
   }
 
-  handleInputChange = (event) =>{
-    const value  =event.target.value;
-    this.setState({
-      inputText: value
-    });
+  getRound = () => {
+    if (this.props.game.rounds.length < this.state.round_number)
+    {
+      return undefined //this issue must be resolved with sockets as new round has not been created yet
+    }
+    else {
+      return this.props.game.rounds[this.state.round_number-1]
+    }
   }
 
-  submitSentence = () => {
-    const body = {game_id: this.props.gameId, content: this.state.inputText}; //gameid is undefined for some reason when passing from APP prop
-    post("/api/sentences", body).then(() => {
-      this.setState({game_is_finished: true});
-      const query = {game_id: this.props.gameId};
-      get("/api/getSentence", query).then((sentence_arr) => {
-        this.setState({sentence_arr: sentence_arr})
-      })
-    });
-    this.setState({
-      inputText: "",
-    });
-  };
-
-
-
+  //how/where will we check when round.active == false?
 
   render() {
-    if (this.state.game_is_finished){
-      let sentenceList = null
-      sentenceList = this.state.sentence_arr.map((sentence) => (<div> {sentence.writer.name} wrote {sentence.content}. </div>))
-      // if(this.state.sentence_arr !== []) {
-      //   sentenceList = this.state.sentence_arr.map((sentence) => (<div> {this.getUserName(sentence.writer)} wrote {sentence.content}. </div>))
-        // let query = null;
-        // sentenceList = this.state.sentence_arr.map((sentence) => get('/api/user', query = {userId: sentence.writer}).then((user) => (<div> {user.name} wrote {sentence.content}. </div>)))
-      
-      console.log(sentenceList);
+    if (!this.props.game.active){
       return (
         <> 
-          {sentenceList}
-          hello
-        </>)
-      
-      
+           Game Over
+        </>)   
     }
+
+    else if (this.props.userId === this.judge)
+    {console.log(this.props)
+      //render starter page
+      return (
+        <>
+        <div>
+          You are the judge.
+        </div>
+        <Judge game_id = {this.props.gameId} judge = {this.props.userId} round_number = {this.state.round_number} ></Judge>
+        </>
+      )
+    }
+    //screen for the players
     return (
       <> 
-        <div className = 'subtitle'> </div>
-        <div>
-            
-            Submit Sentence
-        </div>
-        <input
-            type="text"
-            value={this.state.inputText}
-            onChange={this.handleInputChange}
-            className = "css-input"
-        />  
-        <button type="submit" onClick={this.submitSentence} className = "myButton">Submit</button>
+        <div className = 'subtitle'> You are playing the game</div>
+        <Player game_id = {this.props.gameId} round = {this.getRound()}></Player>
 
       </>
         

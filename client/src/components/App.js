@@ -25,6 +25,7 @@ class App extends Component {
     this.state = {
       userId: undefined,
       game_id: undefined,
+      game: undefined,
     };
   }
 
@@ -51,12 +52,12 @@ class App extends Component {
     post("/api/logout");
   };
 
-  setGameId = (game_id) => {
-    this.setState({game_id}, () => console.log(this.state));
-    console.log("happened");
-  }
+  setGameId = (game) => {
+    this.setState({game_id: game._id, game: game});
+  } 
 
   render() {
+    console.log("User Id is ", this.state.userId)
     return (
       <>
         <NavBar path="/"
@@ -69,7 +70,7 @@ class App extends Component {
           <Profile path="/Profile/:userId"/>
           <JoinGame path = "/JoinGame" setGame = {this.setGameId}/>
           <CreateGame path = '/CreateGame' setGame = {this.setGameId}/>
-          <Game path = '/Game/:gameId' game_id = {this.state.game_id}/>
+          <Game path = '/Game/:gameId' game = {this.state.game} userId = {this.state.userId}/>
           <NotFound default userId = {this.state.userId}/>
         </Router>
       </>

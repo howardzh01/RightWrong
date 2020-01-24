@@ -65,6 +65,10 @@ router.get('/joinGame', auth.ensureLoggedIn, (req, res) => {
     }) 
 })
 
+router.get('/getGame', auth.ensureLoggedIn, (req, res) => {
+  Game.findById({id: req.game_id}).then(res.send(game));
+})
+
 router.post('/newgame', auth.ensureLoggedIn, (req, res) => {
   const newGame = new Game({
     game_name: req.body.game_name,
@@ -79,7 +83,7 @@ router.post('/newgame', auth.ensureLoggedIn, (req, res) => {
     active: true, 
   });
 
-  newGame.save().then((game) => res.send(game._id));
+  newGame.save().then((game) => res.send(game));
 });
 // require game_id and number_of_rounds
 router.post('/disableJoin', auth.ensureLoggedIn, (req, res) => {
@@ -89,7 +93,7 @@ router.post('/disableJoin', auth.ensureLoggedIn, (req, res) => {
   })
 });
 
-// require game_id, judge, intro_line
+// require game_id, judge, intro_line, round_number
 router.post('/startRound', auth.ensureLoggedIn, (req, res) => {
   Game.findById({id: req.body.game_id}).then((game) => {
     const newRound = new Round({
@@ -99,6 +103,7 @@ router.post('/startRound', auth.ensureLoggedIn, (req, res) => {
       active: true,
       round_number: req.body.round_number
     })
+    console.log('accessed api server')
     game.rounds.push(newRound);
     newRound.save().then((round) => res.send(round));
   })
@@ -128,6 +133,9 @@ router.post('/submitSentence', auth.ensureLoggedIn, (req, res) => {
     writer: req.user._id,
     content: req.body.content
   }) 
+  Round.findById(req.body.round_id).then((round) =>{
+    round.content.push(newSentence);
+  })
   newSentence.save().then((sentence) => res.send(sentence));
 })
 

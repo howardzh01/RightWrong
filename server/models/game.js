@@ -10,6 +10,7 @@ const GameSchema = new mongoose.Schema({
   creator_id: mongoose.Schema.ObjectId,
   content: [mongoose.Schema.ObjectId], //sentence (will delete)
   rounds: [mongoose.Schema.ObjectId],
+  active: Boolean,
   // points: mongoose.Schema.Integer,
 
 
