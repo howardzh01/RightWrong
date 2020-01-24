@@ -41,24 +41,13 @@ class Game extends Component {
     });
   };
 
-getUserName = (userId) => {
-    async function f() {
-      const query = {userId: userId}
-      let user = await get('/api/user', query)
-      return user.name
-    }
 
-    f()
-    console.log("ksdgskg")
-    return f()
-    
-  }
 
 
   render() {
     if (this.state.game_is_finished){
       let sentenceList = null
-      sentenceList = this.state.sentence_arr.map((sentence) => (<div> {this.getUserName(sentence.writer)} wrote {sentence.content}. </div>))
+      sentenceList = this.state.sentence_arr.map((sentence) => (<div> {sentence.writer.name} wrote {sentence.content}. </div>))
       // if(this.state.sentence_arr !== []) {
       //   sentenceList = this.state.sentence_arr.map((sentence) => (<div> {this.getUserName(sentence.writer)} wrote {sentence.content}. </div>))
         // let query = null;

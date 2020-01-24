@@ -83,13 +83,15 @@ router.post('/sentences', auth.ensureLoggedIn, (req, res) => {
     game_id: req.body.game_id,
     writer: req.user._id,
     content: req.body.content
-
   }) 
   newSentence.save().then((sentence) => res.send(sentence));
 })
 
 router.get('/getSentence', auth.ensureLoggedIn, (req, res) => {
-  Sentence.find({game_id: req.query.game_id}).then((sentences) => {
+  Sentence.find({game_id: req.query.game_id})
+    .populate("writer")
+    .then((sentences) => {
+      console.log(sentences)
     res.send(sentences) //return lists of Sentence objects
   });
 })
