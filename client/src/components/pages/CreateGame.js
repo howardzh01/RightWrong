@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { get, post } from "../../utilities";
-import { Redirect } from "react-router-dom";
+import { navigate } from "@reach/router";
+
 
 import "./CreateGame.css";
 
@@ -20,7 +21,8 @@ class CreateGame extends Component {
     const body = {game_name: this.state.inputText};
     post("/api/newgame", body).then((game_id) => {
       this.props.setGame(game_id);
-      window.location.replace("/Game");
+      navigate(`/Game/${game_id}`);
+      // window.location.replace(`/Game/${game_id}`);
       // return <Redirect to={`/Game`} />
     });
     this.setState({inputText: ''});

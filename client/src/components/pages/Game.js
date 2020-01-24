@@ -8,6 +8,8 @@ class Game extends Component {
     super(props);
     this.state = {
         inputText: "",
+        game_is_finished: false,
+        sentence_arr: [],
     };
 
   }
@@ -26,18 +28,56 @@ class Game extends Component {
   }
 
   submitSentence = () => {
-    const body = {game_id: this.props.game_id, content: this.state.inputText}; //gameid is undefined for some reason
-    post("/api/sentences", body);
+    const body = {game_id: this.props.gameId, content: this.state.inputText}; //gameid is undefined for some reason when passing from APP prop
+    post("/api/sentences", body).then(() => {
+      this.setState({game_is_finished: true});
+      const query = {game_id: this.props.gameId};
+      get("/api/getSentence", query).then((sentence_arr) => {
+        this.setState({sentence_arr: sentence_arr})
+      })
+    });
     this.setState({
-      inputText: ""
+      inputText: "",
     });
   };
 
+getUserName = (userId) => {
+    async function f() {
+      const query = {userId: userId}
+      let user = await get('/api/user', query)
+      return user.name
+    }
+
+    f()
+    console.log("ksdgskg")
+    return f()
+    
+  }
+
+
   render() {
+    if (this.state.game_is_finished){
+      let sentenceList = null
+      sentenceList = this.state.sentence_arr.map((sentence) => (<div> {this.getUserName(sentence.writer)} wrote {sentence.content}. </div>))
+      // if(this.state.sentence_arr !== []) {
+      //   sentenceList = this.state.sentence_arr.map((sentence) => (<div> {this.getUserName(sentence.writer)} wrote {sentence.content}. </div>))
+        // let query = null;
+        // sentenceList = this.state.sentence_arr.map((sentence) => get('/api/user', query = {userId: sentence.writer}).then((user) => (<div> {user.name} wrote {sentence.content}. </div>)))
+      
+      console.log(sentenceList);
+      return (
+        <> 
+          {sentenceList}
+          hello
+        </>)
+      
+      
+    }
     return (
       <> 
+        <div className = 'subtitle'> </div>
         <div>
-            {this.props.game_id}
+            
             Submit Sentence
         </div>
         <input

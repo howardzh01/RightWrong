@@ -52,7 +52,8 @@ class App extends Component {
   };
 
   setGameId = (game_id) => {
-    this.setState({game_id})
+    this.setState({game_id}, () => console.log(this.state));
+    console.log("happened");
   }
 
   render() {
@@ -65,10 +66,10 @@ class App extends Component {
         />
         <Router>
           <Skeleton path="/"/>
-          <Profile path="/Profile/:userID"/>
+          <Profile path="/Profile/:userId"/>
           <JoinGame path = "/JoinGame" setGame = {this.setGameId}/>
           <CreateGame path = '/CreateGame' setGame = {this.setGameId}/>
-          <Game path = '/Game' game_id = {this.state.game_id}/>
+          <Game path = '/Game/:gameId' game_id = {this.state.game_id}/>
           <NotFound default userId = {this.state.userId}/>
         </Router>
       </>

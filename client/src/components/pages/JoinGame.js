@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { get } from "../../utilities";
-import { Link } from "@reach/router";
-import { Redirect } from "react-router-dom";
+import { navigate } from "@reach/router";
 
 import "./JoinGame.css";
 
@@ -32,7 +31,7 @@ class JoinGame extends Component {
     //need to handle invalid inputs with failed promise
     get("/api/joinGame", query).then((game_id) => {
         this.props.setGame(game_id);
-        window.location.replace("/Game");
+        navigate(`/Game/${game_id}`);
     })
     this.setState({
       inputText: ""

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const GameSchema = new mongoose.Schema({
   game_name: String,
   creator_name: String, // links to the name of player
+  players: [mongoose.Schema.ObjectId],
   creator_id: mongoose.Schema.ObjectId,
   content: [mongoose.Schema.ObjectId],
 });

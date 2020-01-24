@@ -13,21 +13,31 @@ class Profile extends Component {
 
   componentDidMount() {
     document.title = "Profile Page";
-    get(`/api/user`, { userid: this.props.userId }).then((user) => this.setState({ user: user } ));
+    console.log('hello')
+    get(`/api/user`, { userId: this.props.userId }).then((user) => this.setState({user: user } ));
   }
 
   
 
   render() {
     if (!this.state.user) {
+      console.log(this.props)
+      console.log(this.props.userId)
       return <div> Loading! </div>;
     }
     return (
       <> 
-      <div className = 'subtitle'>
-          hello 
-        {this.state.user}
+      <div>
+        {this.state.user.name}
       </div>
+      {/* <div>
+        Hello
+      </div>
+      <div className = 'subtitle'>
+        {console.log('hello')}
+        {console.log(this.state.user)}
+        {this.state.user}
+      </div> */}
 
       </>
         

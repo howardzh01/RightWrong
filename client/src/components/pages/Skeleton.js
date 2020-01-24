@@ -19,19 +19,19 @@ class Skeleton extends Component {
     return (
 
       <> 
-        <div class = "subtitle"> Right Wrong: An Interactive Story Writing Game</div>
-        <div class="margin container"> 
+        <div className = "subtitle"> Right Wrong: An Interactive Story Writing Game</div>
+        <div className="margin container"> 
           <Link to= "/CreateGame/" className ="card one"> Create Story</Link>
-          <Link to = "/JoinGame/" class="card two"> Join a Game</Link>
+          <Link to = "/JoinGame/" className="card two"> Join a Game</Link>
         </div>
-        <hr class = "horizontal-line"></hr>
-        <div class = "subtitle"> How it works </div>
-        <div class = 'centeredText'>
+        <hr className = "horizontal-line"></hr>
+        <div className = "subtitle"> How it works </div>
+        <div className = 'centeredText'>
           <ol>
             <li>A player completes a sentence and writes the beginning of the next sentence</li>
             <li>The next player finishes that sentence and starts the next one</li>
             <li>After everyone writes one sentence, the complete story is revealed</li>
-            <li>Did they <span class = 'italics'>right wrong? </span></li>
+            <li>Did they <span className = 'italics'>right wrong? </span></li>
           </ol>
         </div>
         
