@@ -2,12 +2,14 @@ const mongoose = require("mongoose");
 
 //define a game schema for the database
 const RoundSchema = new mongoose.Schema({
-  game_name: String,
-  creator_name: String, // links to the name of player
-  players: [mongoose.Schema.ObjectId],
-  creator_id: mongoose.Schema.ObjectId,
-  content: [mongoose.Schema.ObjectId],
+  game_id: mongoose.Schema.ObjectId, // links to the name of player
+  judge: mongoose.Schema.ObjectId,
+  intro_line: String,
+  content: [mongoose.Schema.ObjectId], //list of sentences
+  winner_sentence: mongoose.Schema.ObjectId,
+  active: Boolean,
+  round_number: Number,
 });
 
 // compile model from schema
-module.exports = mongoose.model("game", GameSchema);
+module.exports = mongoose.model("round", RoundSchema);

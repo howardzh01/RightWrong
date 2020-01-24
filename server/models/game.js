@@ -4,9 +4,15 @@ const mongoose = require("mongoose");
 const GameSchema = new mongoose.Schema({
   game_name: String,
   creator_name: String, // links to the name of player
+  can_join: Boolean,
+  total_rounds: Number,
   players: [mongoose.Schema.ObjectId],
   creator_id: mongoose.Schema.ObjectId,
-  content: [mongoose.Schema.ObjectId],
+  content: [mongoose.Schema.ObjectId], //sentence (will delete)
+  rounds: [mongoose.Schema.ObjectId],
+  // points: mongoose.Schema.Integer,
+
+
 });
 
 // compile model from schema

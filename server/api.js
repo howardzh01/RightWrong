@@ -13,6 +13,7 @@ const express = require("express");
 const User = require("./models/user");
 const Game = require("./models/game");
 const Sentence = require("./models/sentence");
+const Round = require("./models/rounds");
 
 // import authentication library
 const auth = require("./auth");
@@ -58,10 +59,9 @@ router.get("/user", (req, res) => {
 // })
 
 router.get('/joinGame', auth.ensureLoggedIn, (req, res) => {
-  Game.findOne({creator_name: req.query.creator_name}).then((game) => {
+  Game.findOne({creator_name: req.query.creator_name, can_join: true}).then((game) => {
       game.players.concat([req.user._id])
       res.send(game._id)
-    
     }) 
 })
 
@@ -69,18 +69,62 @@ router.post('/newgame', auth.ensureLoggedIn, (req, res) => {
   const newGame = new Game({
     game_name: req.body.game_name,
     creator_name: req.user.name,
+    can_join: true,
+    round_number: 1, 
+    total_rounds: 1,
     players: [req.user._id],
     creator_id: req.user._id,
     content: [],
+    rounds: [],
+    active: true, 
   });
 
   newGame.save().then((game) => res.send(game._id));
 });
+// require game_id and number_of_rounds
+router.post('/disableJoin', auth.ensureLoggedIn, (req, res) => {
+  Game.findById({id: req.body.game_id}).then((game) => {
+    game.can_join = false;
+    game.total_rounds = req.body.number_of_rounds
+  })
+});
+
+// require game_id, judge, intro_line
+router.post('/startRound', auth.ensureLoggedIn, (req, res) => {
+  Game.findById({id: req.body.game_id}).then((game) => {
+    const newRound = new Round({
+      game_id: req.body.game_id,
+      judge: req.body.judge, //consider changing this to find judge based on round number
+      intro_line: req.body.intro_line,
+      active: true,
+      round_number: req.body.round_number
+    })
+    game.rounds.push(newRound);
+    newRound.save().then((round) => res.send(round));
+  })
+})
+
+
+router.post('/finishRound', auth.ensureLoggedIn, (req, res) => {
+  Round.findById({id: req.body.round_id}).then((round) => {
+    round.winner_sentence = req.body.sentence;
+    round.active = false;
+    Game.findById({id: req.body.game_id}).then((game) => {
+      if (round.round_number === game.round_number){
+        game.active = false;
+      }
+      res.send(game)
+    })
+    
+    //need to update leaderboard somehow
+  })
+})
 
 // require game_id and content
-router.post('/sentences', auth.ensureLoggedIn, (req, res) => {
+router.post('/submitSentence', auth.ensureLoggedIn, (req, res) => {
   const newSentence = new Sentence({
     game_id: req.body.game_id,
+    round_id: req.body.round_id,
     writer: req.user._id,
     content: req.body.content
   }) 
@@ -91,7 +135,6 @@ router.get('/getSentence', auth.ensureLoggedIn, (req, res) => {
   Sentence.find({game_id: req.query.game_id})
     .populate("writer")
     .then((sentences) => {
-      console.log(sentences)
     res.send(sentences) //return lists of Sentence objects
   });
 })
