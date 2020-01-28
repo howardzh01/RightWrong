@@ -8,7 +8,6 @@ const GameSchema = new mongoose.Schema({
   total_rounds: Number,
   players: [mongoose.Schema.ObjectId],
   creator_id: mongoose.Schema.ObjectId,
-  content: [mongoose.Schema.ObjectId], //sentence (will delete)
   rounds: [mongoose.Schema.ObjectId],
   active: Boolean,
   // points: mongoose.Schema.Integer,

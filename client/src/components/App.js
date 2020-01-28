@@ -69,7 +69,7 @@ class App extends Component {
           <Skeleton path="/"/>
           <Profile path="/Profile/:userId"/>
           <JoinGame path = "/JoinGame" setGame = {this.setGameId}/>
-          <CreateGame path = '/CreateGame' setGame = {this.setGameId}/>
+          <CreateGame path = '/CreateGame' setGame = {this.setGameId} userId = {this.state.userId}/>
           <Game path = '/Game/:gameId' game = {this.state.game} userId = {this.state.userId}/>
           <NotFound default userId = {this.state.userId}/>
         </Router>

@@ -24,8 +24,6 @@ class JoinGame extends Component {
     });
   }
 
-  
-
   submitGameRequest = () => {
     const query = {creator_name: this.state.inputText};
     //need to handle invalid inputs with failed promise

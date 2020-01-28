@@ -14,37 +14,8 @@ const GOOGLE_CLIENT_ID = "260290227836-ig44r7nvjojrp6k19a8t1iu28h5fcf54.apps.goo
 class NavBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      userId: null,
-    };
   }
 
-  componentDidMount() {
-    get("/api/whoami").then((user) => {
-      if (user._id) {
-        // if the user is logged in, save their ID in react state
-        this.setState({ userId: user._id });
-      }
-    });
-  }
-
-  handleLogin = (res) => {
-    // 'res' contains the response from Google's authentication servers
-    console.log(res);
-
-    const userToken = res.tokenObj.id_token;
-    post("/api/login", { token: userToken }).then((user) => {
-      // the server knows we're logged in now
-      this.setState({ userId: user._id });
-      console.log(user);
-    });
-  };
-
-  handleLogout = () => {
-    console.log("Logged out successfully!");
-    this.setState({ userId: null });
-    post("/api/logout");
-  };
 
   render() {
     return (
@@ -63,20 +34,15 @@ class NavBar extends Component {
             Create Game
           </Link>
 
-          {this.state.userId && (
-            <Link to= {`/Profile/${this.state.userId}`}className="NavBar-link">Profile</Link>
-            
-
-            // <Link to={`/profile/${this.state.userId}`} className="NavBar-link">
-            //   Profile
-            // </Link>
+          {this.props.userId && (
+            <Link to= {`/Profile/${this.props.userId}`}className="NavBar-link">Profile</Link>
           )}
 
-          {this.state.userId ? (
+          {this.props.userId ? (
             <GoogleLogout
               clientId={GOOGLE_CLIENT_ID}
               buttonText="Logout"
-              onLogoutSuccess={this.handleLogout}
+              onLogoutSuccess={this.props.handleLogout}
               onFailure={(err) => console.log(err)}
               className="NavBar-link NavBar-login"
             />
@@ -84,7 +50,7 @@ class NavBar extends Component {
             <GoogleLogin
               clientId={GOOGLE_CLIENT_ID}
               buttonText="Login"
-              onSuccess={this.handleLogin}
+              onSuccess={this.props.handleLogin}
               onFailure={(err) => console.log(err)}
               className="NavBar-link NavBar-login"
             />

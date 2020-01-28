@@ -15,6 +15,11 @@ const Game = require("./models/game");
 const Sentence = require("./models/sentence");
 const Round = require("./models/rounds");
 
+const gameObject = require("./gameObject");
+
+// new gameObject()
+
+
 // import authentication library
 const auth = require("./auth");
 
@@ -23,6 +28,12 @@ const router = express.Router();
 
 //initialize socket
 const socket = require("./server-socket");
+
+const gameCodeToGameMap = {};
+
+// gameCodeToGameMap[gameCode] = gameObject;
+// delete gameCodeToGameMap[gameCode]
+
 
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
@@ -37,8 +48,44 @@ router.get("/whoami", (req, res) => {
 
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
-  if (req.user) socket.addUser(req.user, socket.getSocketFromSocketID(req.body.socketid));
+  if (req.user) {
+    socket.addUser(req.user, socket.getSocketFromSocketID(req.body.socketid));
+    // 
+  }
   res.send({});
+});
+
+router.post('/joinGame', auth.ensureLoggedIn, (req, res) => {
+  const userSocket = socket.getSocketFromUserID(req.user._id);
+  if (req.query.roomId in gameCodeToGameMap){
+    userSocket.join(req.query.roomId); //asdf = roomnumber
+    userSocket.emit('room', 'I joined the game'); 
+  }
+  
+  
+//   socket.on('connect', function() {
+//     // Connected, let's sign-up for to receive messages for this room
+//     socket.getSocketFromUserID(req.user._id).emit('room', req.roomId);
+//     res.send(req.user)
+//  });
+})
+
+router.post('/createGame', auth.ensureLoggedIn, (req, res) => {
+  const userSocket = socket.getSocketFromUserID(req.user._id);
+  userSocket.join(req.query.roomId);
+  userSocket.emit("room", req.query.roomId);
+  gameCodeToGameMap[req.query.roomId] = new gameObject(req.query.roomId);
+  gameCodeToGameMap[req.query.roomId].users.push(req.user);
+  // console.log(gameCodeToGameMap[req.query.roomId])
+  res.send(gameCodeToGameMap[req.query.roomId])
+})
+
+// setTimeout(() => {
+//   // run after 5s
+// }, 5000);
+
+router.get("/activeUsers", (req, res) => {
+  if (req.user) res.send({ activeUsers: socket.getAllConnectedUsers() });
 });
 
 // |------------------------------|
@@ -58,12 +105,6 @@ router.get("/user", (req, res) => {
 
 // })
 
-router.get('/joinGame', auth.ensureLoggedIn, (req, res) => {
-  Game.findOne({creator_name: req.query.creator_name, can_join: true}).then((game) => {
-      game.players.concat([req.user._id])
-      res.send(game._id)
-    }) 
-})
 
 router.get('/getGame', auth.ensureLoggedIn, (req, res) => {
   Game.findById({id: req.game_id}).then(res.send(game));

@@ -11,7 +11,7 @@ class Game extends Component {
     super(props);
     this.state = {
       inputText: "",
-      judge: this.props.game.players[0],
+      // judge: this.props.game.players[0],
       round_number: 1,
     };
     // get('/getGame').then((game) => {
@@ -44,6 +44,10 @@ class Game extends Component {
   //how/where will we check when round.active == false?
 
   render() {
+
+    if (!this.props.game) {
+      return <div></div>
+    }
     if (!this.props.game.active){
       return (
         <> 
@@ -51,18 +55,18 @@ class Game extends Component {
         </>)   
     }
 
-    else if (this.props.userId === this.judge)
-    {console.log(this.props)
-      //render starter page
-      return (
-        <>
-        <div>
-          You are the judge.
-        </div>
-        <Judge game_id = {this.props.gameId} judge = {this.props.userId} round_number = {this.state.round_number} ></Judge>
-        </>
-      )
-    }
+    else if (this.props.userId === this.props.game.players[0])
+      {console.log(this.props)
+        //render starter page
+        return (
+          <>
+          <div>
+            You are the judge.
+          </div>
+          <Judge game_id = {this.props.gameId} judge = {this.props.userId} round_number = {this.state.round_number} ></Judge>
+          </>
+        )
+      }
     //screen for the players
     return (
       <> 
