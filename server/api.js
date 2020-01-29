@@ -66,21 +66,21 @@ router.post("/initsocket", (req, res) => {
 router.post('/createGame', auth.ensureLoggedIn, (req, res) => {
   const userSocket = socket.getSocketFromUserID(req.user._id);
   userSocket.join(req.body.game_id);
-  userSocket.emit(req.body.game_id, 'hello')
   // userSocket.emit("room", req.body.game_id);
   new_game = new gameObject(req.body.game_id);
   gameCodeToGameMap[req.body.game_id] = new_game;
   new_game.users.push(req.user);
+  socket.getIo().in(req.body.game_id).emit('displayUsers', gameCodeToGameMap[req.body.game_id].users);
   res.send(new_game)
 })
 
 router.post('/joinGame', auth.ensureLoggedIn, (req, res) => {
   const userSocket = socket.getSocketFromUserID(req.user._id);
-  if (req.body.game_id in gameCodeToGameMap){
+  if (req.body.game_id in gameCodeToGameMap && gameCodeToGameMap[req.body.game_id].can_join){
     gameCodeToGameMap[req.body.game_id].users.push(req.user);
     userSocket.join(req.body.game_id); //asdf = roomnumber
     // userSocket.emit(req.body.game_id, 'yo whats yo', req.user);
-    socket.getIo().in(req.body.game_id).emit('yo', gameCodeToGameMap[req.body.game_id].users);
+    socket.getIo().in(req.body.game_id).emit('displayUsers', gameCodeToGameMap[req.body.game_id].users);
     res.send({id:req.body.game_id}); 
   }
   else{
@@ -97,7 +97,6 @@ router.post('/updateGameInfo', auth.ensureLoggedIn, (req, res) => {
 })
 
 router.get('/gameObject', auth.ensureLoggedIn, (req, res) => {
-  console.log(gameCodeToGameMap[req.query.game_id])
   res.send(gameCodeToGameMap[req.query.game_id])
 })
 
@@ -121,60 +120,53 @@ router.get("/user", (req, res) => {
   });
 });
 
+router.get('/isJudge', auth.ensureLoggedIn, (req, res) => {
+  gameObj = gameCodeToGameMap[req.query.game_id]
+  res.send({isJudge: gameObj.isJudge(req.user)});
 
-// require game_id, judge, intro_line, round_number
+})
+
 router.post('/startRound', auth.ensureLoggedIn, (req, res) => {
-  Game.findById({id: req.body.game_id}).then((game) => {
-    const newRound = new Round({
-      game_id: req.body.game_id,
-      judge: req.body.judge, //consider changing this to find judge based on round number
-      intro_line: req.body.intro_line,
-      active: true,
-      round_number: req.body.round_number
-    })
-    console.log('accessed api server')
-    game.rounds.push(newRound);
-    newRound.save().then((round) => res.send(round));
-  })
+  gameObj = gameCodeToGameMap[req.body.game_id]
+  res.send(gameObj.addNewRound());
 })
 
-
-router.post('/finishRound', auth.ensureLoggedIn, (req, res) => {
-  Round.findById({id: req.body.round_id}).then((round) => {
-    round.winner_sentence = req.body.sentence;
-    round.active = false;
-    Game.findById({id: req.body.game_id}).then((game) => {
-      if (round.round_number === game.round_number){
-        game.active = false;
-      }
-      res.send(game)
-    })
-    
-    //need to update leaderboard somehow
-  })
+router.post('/updateIntroSentence', auth.ensureLoggedIn, (req, res) => {
+  gameObj = gameCodeToGameMap[req.body.game_id]
+  gameObj.updateRoundIntro(req.body.intro)
+  socket.getIo().in(req.body.game_id).emit('getIntro', req.body.intro);
+  res.send({});
 })
+
+router.post('/updateWinner', auth.ensureLoggedIn, (req, res) => {
+  gameObj = gameCodeToGameMap[req.body.game_id]
+  gameObj.getCurrentRound().winner_userId = req.body.winner_id
+  socket.getIo().in(req.body.game_id).emit('revealWinner', req.body.winner_name)
+  console.log(gameObj.getCurrentRound())
+  res.send({});
+})
+
+router.post('/endRound', auth.ensureLoggedIn, (req, res) => {
+  socket.getIo().in(req.body.game_id).emit('roundOver', {gameOver: true});
+  res.send({});
+})
+
 
 // require game_id and content
 router.post('/submitSentence', auth.ensureLoggedIn, (req, res) => {
-  const newSentence = new Sentence({
-    game_id: req.body.game_id,
-    round_id: req.body.round_id,
-    writer: req.user._id,
-    content: req.body.content
-  }) 
-  Round.findById(req.body.round_id).then((round) =>{
-    round.content.push(newSentence);
-  })
-  newSentence.save().then((sentence) => res.send(sentence));
+  gameObj = gameCodeToGameMap[req.body.game_id];
+  gameObj.getCurrentRound().mapUserToSentence[req.user._id] = req.body.sentence;
+  socket.getIo().in(req.body.game_id).emit('displaySentences', gameObj.getCurrentRound().mapUserToSentence);
+  res.send({})
 })
 
-router.get('/getSentence', auth.ensureLoggedIn, (req, res) => {
-  Sentence.find({game_id: req.query.game_id})
-    .populate("writer")
-    .then((sentences) => {
-    res.send(sentences) //return lists of Sentence objects
-  });
-})
+// router.get('/getSentence', auth.ensureLoggedIn, (req, res) => {
+//   Sentence.find({game_id: req.query.game_id})
+//     .populate("writer")
+//     .then((sentences) => {
+//     res.send(sentences) //return lists of Sentence objects
+//   });
+// })
 
 // router.get('/writerName', auth.ensureLoggedIn, (req, res) => {
 //   Sentence

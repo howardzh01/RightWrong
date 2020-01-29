@@ -16,10 +16,6 @@ class JoinGame extends Component {
 
   componentDidMount() {
     document.title = "Join!!!"; 
-    socket.on('yo', (roomId) => {
-      // do stuff
-      console.log(roomId);
-    })
   }
 
   handleInputChange = (event) =>{

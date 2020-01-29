@@ -32,7 +32,7 @@ class CreateGame extends Component {
       })
     }
     
-    socket.on('yo', (users) => {
+    socket.on('displayUsers', (users) => {
       // do stuff
       this.setState({joined_users: users});
     })
@@ -73,7 +73,7 @@ class CreateGame extends Component {
           The game id is {this.state.game_id}
         </div>
         <div>
-
+          {this.state.joined_users.map((user) => (<div key = {user._id}> {user.name} </div>))}
         </div>
         <div>
           Enter the number of rounds
