@@ -16,9 +16,7 @@ class gameObject {
     
     addNewRound()
     {
-        let a = new roundObject(this.gameId, this.rounds.length)
-        this.rounds.push(a)
-        return a
+        this.rounds.push(new roundObject(this.gameId, this.users[this.rounds.length % this.users.length], this.rounds.length))
     }
 
     updateRoundIntro(intro)
@@ -28,11 +26,14 @@ class gameObject {
 
     isJudge(user)
     {   //for first round
-        if(this.rounds.length === 0 && user._id == this.users[0]._id){
-            return true
+        if(this.rounds.length === 0 ){
+            if(user._id == this.users[0]._id){
+                return true
+            }
+            return false
         }
-        
-        if(user._id === this.users[this.rounds.length% this.users.length]._id)
+    
+        else if(user._id === this.users[this.rounds.length % this.users.length]._id)
         {
             return true
         }

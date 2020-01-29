@@ -23,6 +23,7 @@ class Player extends Component {
     }
   
     componentDidMount() {
+      console.log('mount player')
       socket.on('getIntro', (intro) => {
         this.setState({intro: intro});
       })
@@ -33,14 +34,14 @@ class Player extends Component {
         this.setState({winner_name: winner_name});
         console.log(this.state.winner_name)
       })
-      socket.on('roundOver', () =>{
-        window.location.replace("/game/" + this.props.game_id)
-        // navigate(`/Game/${this.props.game_id}`);
-      })
-    }
-    
+      // socket.on('roundOver', () =>{
+      //   window.location.reload(true)
+      //   // window.location.replace("/game/" + this.props.game_id)
+      //   // navigate(`/Game/${this.props.game_id}`);
+      // })
 
-      // bug this.props.judge is not passed due to probel in App.js
+      console.log('mounted player', this.state.intro)
+    }
 
     handleInputChange = (event) =>{
         const value  =event.target.value;

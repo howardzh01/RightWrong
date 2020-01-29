@@ -16,7 +16,6 @@ class Judge extends Component {
       super(props);
       this.state = {
         intro: '',
-        round: undefined,
         round_started: false,
         sentenceMap: {},
         winner_id: '',
@@ -25,9 +24,10 @@ class Judge extends Component {
     }
   
     componentDidMount() {
-      post('/api/startRound', {game_id: this.props.game_id}).then((round) => {
-        this.setState({round: round});
-      })
+      post('/api/startRound', {game_id: this.props.game_id}).then((rounds) => {
+        // console.log(rounds.length)
+        // this.props.updateRound(rounds.length);
+      });
       socket.on('displaySentences', (sentenceMap) => {
         this.setState({sentenceMap: sentenceMap});
       })
@@ -59,11 +59,20 @@ class Judge extends Component {
     }
 
     nextRound = (event) => {
-      post('/api/endRound', {game_id: this.props.game_id}).then(() => 
-      window.location.replace("/game/" + this.props.game_id) //buggy
+      console.log('next round is called')
+      post('/api/endRound', {game_id: this.props.game_id})
+      // post('/api/startRound', {game_id: this.props.game_id}).then((rounds) => {
+      //   // this.props.updateRound(rounds.length);
+
+      //   post('/api/endRound', {game_id: this.props.game_id})
+      // });
+      
+    };
+      
+      // window.location.replace("/game/" + this.props.game_id) //buggy
       // navigate(`/Game/${this.props.game_id}`));
 
-      )}
+      
 
     render() {
       if(this.state.round_finished)

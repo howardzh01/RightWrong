@@ -128,7 +128,13 @@ router.get('/isJudge', auth.ensureLoggedIn, (req, res) => {
 
 router.post('/startRound', auth.ensureLoggedIn, (req, res) => {
   gameObj = gameCodeToGameMap[req.body.game_id]
-  res.send(gameObj.addNewRound());
+
+  console.log('previous', gameObj)
+  gameObj.addNewRound()
+  console.log('after', gameObj)
+  console.log(gameObj.rounds.length)
+  socket.getIo().in(req.body.game_id).emit('updateRoundNumber', gameObj.rounds.length)
+  res.send({});
 })
 
 router.post('/updateIntroSentence', auth.ensureLoggedIn, (req, res) => {
@@ -147,7 +153,7 @@ router.post('/updateWinner', auth.ensureLoggedIn, (req, res) => {
 })
 
 router.post('/endRound', auth.ensureLoggedIn, (req, res) => {
-  socket.getIo().in(req.body.game_id).emit('roundOver', {gameOver: true});
+  socket.getIo().in(req.body.game_id).emit('roundOver', {});
   res.send({});
 })
 
