@@ -12,8 +12,8 @@ class CreateGame extends Component {
     this.state = {
       game_id: this.generateGameId(),
       game: undefined,
-      rounds: 0,
-      joinedUsers: [],
+      rounds: undefined,
+      joined_users: [],
     };
   }
 
@@ -25,10 +25,16 @@ class CreateGame extends Component {
 
   componentDidMount() {
     document.title = "Game";
-    console.log("create game mounted");
-    socket.on("room", (roomId) => {
+    if(this.props.userId){
+      // console.log(this.state.game_id)
+      post("/api/createGame", {game_id: this.state.game_id}).then((game) => {
+        this.setState({game: game});
+      })
+    }
+    
+    socket.on('yo', (users) => {
       // do stuff
-      console.log(roomId);
+      this.setState({joined_users: users});
     })
   }
 
@@ -44,19 +50,15 @@ class CreateGame extends Component {
     console.log(this.props.userId)
     if(this.props.userId)
     {
-      post("/api/createGame", {roomId: 'asdf'}).then((game) => {
-        console.log('hello')
-        console.log(game)
-        this.state.joinedUsers.push(this.props.userId); 
-        this.props.setGame(game);
-        this.setState({game: game, total_rounds: this.state.rounds, can_join: false});
+      post("/api/updateGameInfo", {game_id: this.state.game_id, rounds: this.state.rounds}).then((game) => {
+        this.props.setGame(this.state.game_id);
+        this.setState({game: game});
         navigate(`/Game/${this.state.game_id}`);
       });
     } 
   }
 
   handleRoundInput = (event) =>{
-    console.log(this.state.rounds)
     this.setState({
       rounds: event.target.value,
     });
@@ -67,7 +69,12 @@ class CreateGame extends Component {
 
     return (
       <> 
+        <div className = "subtitle">
+          The game id is {this.state.game_id}
+        </div>
+        <div>
 
+        </div>
         <div>
           Enter the number of rounds
         </div>

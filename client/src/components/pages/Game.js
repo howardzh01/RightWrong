@@ -11,22 +11,17 @@ class Game extends Component {
     super(props);
     this.state = {
       inputText: "",
-      // judge: this.props.game.players[0],
+      game: "",
       round_number: 1,
     };
-    // get('/getGame').then((game) => {
-    //   this.state = {
-    //     inputText: "",
-    //     game_is_finished: false,
-    //     judge: game.players[0],
-    //     round_number: 1,
-    //     game: game,
-    //   };
-    // });
   }
 
   componentDidMount() {
+    
     document.title = "Game";
+    get('/api/gameObject', {game_id: this.props.game_id}).then((game) => {
+      this.setState({game: game});
+    })
 
 
   }
@@ -45,33 +40,34 @@ class Game extends Component {
 
   render() {
 
-    if (!this.props.game) {
-      return <div></div>
-    }
-    if (!this.props.game.active){
-      return (
-        <> 
-           Game Over
-        </>)   
-    }
+    // if (!this.state.game) {
+    //   return <div>{this.state}</div>
+    // }
+    // else if (!this.state.game.active){
+    //   return (
+    //     <> 
+    //        Game Over
+    //     </>)   
+    // }
 
-    else if (this.props.userId === this.props.game.players[0])
-      {console.log(this.props)
-        //render starter page
-        return (
-          <>
-          <div>
-            You are the judge.
-          </div>
-          <Judge game_id = {this.props.gameId} judge = {this.props.userId} round_number = {this.state.round_number} ></Judge>
-          </>
-        )
-      }
+    // else if (this.props.userId === this.props.game.players[0])
+    //   {console.log(this.props)
+    //     //render starter page
+    //     return (
+    //       <>
+    //       <div>
+    //         You are the judge.
+    //       </div>
+    //       <Judge game_id = {this.props.gameId} judge = {this.props.userId} round_number = {this.state.round_number} ></Judge>
+    //       </>
+    //     )
+    //   }
     //screen for the players
     return (
       <> 
         <div className = 'subtitle'> You are playing the game</div>
-        <Player game_id = {this.props.gameId} round = {this.getRound()}></Player>
+        <div>{this.state.game_id}</div>
+        {/* <Player game_id = {this.props.gameId} round = {this.getRound()}></Player> */}
 
       </>
         

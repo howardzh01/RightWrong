@@ -54,13 +54,6 @@ router.post("/initsocket", (req, res) => {
   }
   res.send({});
 });
-
-router.post('/joinGame', auth.ensureLoggedIn, (req, res) => {
-  const userSocket = socket.getSocketFromUserID(req.user._id);
-  if (req.query.roomId in gameCodeToGameMap){
-    userSocket.join(req.query.roomId); //asdf = roomnumber
-    userSocket.emit('room', 'I joined the game'); 
-  }
   
   
 //   socket.on('connect', function() {
@@ -68,16 +61,44 @@ router.post('/joinGame', auth.ensureLoggedIn, (req, res) => {
 //     socket.getSocketFromUserID(req.user._id).emit('room', req.roomId);
 //     res.send(req.user)
 //  });
-})
+
 
 router.post('/createGame', auth.ensureLoggedIn, (req, res) => {
   const userSocket = socket.getSocketFromUserID(req.user._id);
-  userSocket.join(req.query.roomId);
-  userSocket.emit("room", req.query.roomId);
-  gameCodeToGameMap[req.query.roomId] = new gameObject(req.query.roomId);
-  gameCodeToGameMap[req.query.roomId].users.push(req.user);
-  // console.log(gameCodeToGameMap[req.query.roomId])
-  res.send(gameCodeToGameMap[req.query.roomId])
+  userSocket.join(req.body.game_id);
+  userSocket.emit(req.body.game_id, 'hello')
+  // userSocket.emit("room", req.body.game_id);
+  new_game = new gameObject(req.body.game_id);
+  gameCodeToGameMap[req.body.game_id] = new_game;
+  new_game.users.push(req.user);
+  res.send(new_game)
+})
+
+router.post('/joinGame', auth.ensureLoggedIn, (req, res) => {
+  const userSocket = socket.getSocketFromUserID(req.user._id);
+  if (req.body.game_id in gameCodeToGameMap){
+    gameCodeToGameMap[req.body.game_id].users.push(req.user);
+    userSocket.join(req.body.game_id); //asdf = roomnumber
+    // userSocket.emit(req.body.game_id, 'yo whats yo', req.user);
+    socket.getIo().in(req.body.game_id).emit('yo', gameCodeToGameMap[req.body.game_id].users);
+    res.send({id:req.body.game_id}); 
+  }
+  else{
+    res.send({id:""});
+  }
+
+});
+
+router.post('/updateGameInfo', auth.ensureLoggedIn, (req, res) => {
+  gameObj = gameCodeToGameMap[req.body.game_id]
+  gameObj.can_join = false;
+  gameObj.total_rounds = req.body.rounds
+  res.send(gameObj)
+})
+
+router.get('/gameObject', auth.ensureLoggedIn, (req, res) => {
+  console.log(gameCodeToGameMap[req.query.game_id])
+  res.send(gameCodeToGameMap[req.query.game_id])
 })
 
 // setTimeout(() => {
@@ -100,39 +121,6 @@ router.get("/user", (req, res) => {
   });
 });
 
-// router.get('/gamesOfUsers', auth.ensureLoggedIn, (req, res) => {
-//   // Game.find({})
-
-// })
-
-
-router.get('/getGame', auth.ensureLoggedIn, (req, res) => {
-  Game.findById({id: req.game_id}).then(res.send(game));
-})
-
-router.post('/newgame', auth.ensureLoggedIn, (req, res) => {
-  const newGame = new Game({
-    game_name: req.body.game_name,
-    creator_name: req.user.name,
-    can_join: true,
-    round_number: 1, 
-    total_rounds: 1,
-    players: [req.user._id],
-    creator_id: req.user._id,
-    content: [],
-    rounds: [],
-    active: true, 
-  });
-
-  newGame.save().then((game) => res.send(game));
-});
-// require game_id and number_of_rounds
-router.post('/disableJoin', auth.ensureLoggedIn, (req, res) => {
-  Game.findById({id: req.body.game_id}).then((game) => {
-    game.can_join = false;
-    game.total_rounds = req.body.number_of_rounds
-  })
-});
 
 // require game_id, judge, intro_line, round_number
 router.post('/startRound', auth.ensureLoggedIn, (req, res) => {

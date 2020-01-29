@@ -25,7 +25,6 @@ class App extends Component {
     this.state = {
       userId: undefined,
       game_id: undefined,
-      game: undefined,
     };
   }
 
@@ -33,7 +32,7 @@ class App extends Component {
     get("/api/whoami").then((user) => {
       if (user._id) {
         // they are registed in the database, and currently logged in.
-        this.setState({ userId: user._id });
+        this.setState({userId: user._id });
       }
     });
   }
@@ -52,8 +51,8 @@ class App extends Component {
     post("/api/logout");
   };
 
-  setGameId = (game) => {
-    this.setState({game_id: game._id, game: game});
+  setGameId = (game_id) => {
+    this.setState({game_id: game_id});
   } 
 
   render() {
@@ -70,7 +69,7 @@ class App extends Component {
           <Profile path="/Profile/:userId"/>
           <JoinGame path = "/JoinGame" setGame = {this.setGameId}/>
           <CreateGame path = '/CreateGame' setGame = {this.setGameId} userId = {this.state.userId}/>
-          <Game path = '/Game/:gameId' game = {this.state.game} userId = {this.state.userId}/>
+          <Game path = '/Game/:game_id' userId = {this.state.userId}/>
           <NotFound default userId = {this.state.userId}/>
         </Router>
       </>

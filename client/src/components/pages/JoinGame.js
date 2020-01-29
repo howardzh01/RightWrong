@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { get } from "../../utilities";
+import { get, post } from "../../utilities";
 import { navigate } from "@reach/router";
+import { socket } from "../../client-socket.js";
 
 import "./JoinGame.css";
 
@@ -15,6 +16,10 @@ class JoinGame extends Component {
 
   componentDidMount() {
     document.title = "Join!!!"; 
+    socket.on('yo', (roomId) => {
+      // do stuff
+      console.log(roomId);
+    })
   }
 
   handleInputChange = (event) =>{
@@ -25,11 +30,17 @@ class JoinGame extends Component {
   }
 
   submitGameRequest = () => {
-    const query = {creator_name: this.state.inputText};
     //need to handle invalid inputs with failed promise
-    get("/api/joinGame", query).then((game_id) => {
-        this.props.setGame(game_id);
-        navigate(`/Game/${game_id}`);
+    post("/api/joinGame", {game_id: this.state.inputText}).then((game_id) => {
+        if(game_id.id ===  ""){
+          this.setState({
+            inputText: ""
+          });
+          alert("Invalid code!")
+        } else {
+          this.props.setGame(game_id.id);
+          navigate(`/Game/${game_id.id}`);
+        }
     })
     this.setState({
       inputText: ""
