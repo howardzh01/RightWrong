@@ -19,6 +19,8 @@ class Player extends Component {
         submitted: false,
         sentenceMap: {},
         winner_name: undefined,
+        judge_name: undefined,
+        
       };
     }
   
@@ -33,6 +35,10 @@ class Player extends Component {
       socket.on('revealWinner', (winner_name) => {
         this.setState({winner_name: winner_name});
         console.log(this.state.winner_name)
+      })
+      socket.on('judge', (judge) =>{
+        this.setState({judge_name: judge});
+
       })
       // socket.on('roundOver', () =>{
       //   window.location.reload(true)
@@ -64,7 +70,7 @@ class Player extends Component {
       if(!this.state.intro) {
         return(<>
         <div>
-          Please wait for the judge to give the beginning of the sentence
+          Please wait for the judge {this.state.judge_name} to give the beginning of the sentence
         </div></>)
       }
 
@@ -77,11 +83,12 @@ class Player extends Component {
       else if(this.state.submitted) {
           // let sentenceList = this.state.sentence_arr.map((sentence) => (<div> {sentence.writer.name} wrote {sentence.content}. </div>))
           return (<> 
+          <div>Waiting for judge {this.state.judge_name} </div>
           <div>
               Good job submitting your sentence! For this round, the sentences submitted so far are
           </div>
           <div>
-            {Object.keys(this.state.sentenceMap).map((userId) => (<div key = {userId}> {userId} {this.props.userMap[userId]}: {this.state.sentenceMap[userId]} </div>))}
+            {Object.keys(this.state.sentenceMap).map((userId, index) => (<div key = {userId}> {index+1}. {this.props.userMap[userId]} wrote: {this.state.sentenceMap[userId]}</div>))}
           </div>
           
           </>)

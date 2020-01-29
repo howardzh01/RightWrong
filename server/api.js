@@ -123,6 +123,9 @@ router.get("/user", (req, res) => {
 
 router.get('/isJudge', auth.ensureLoggedIn, (req, res) => {
   gameObj = gameCodeToGameMap[req.query.game_id]
+  if(gameObj.isJudge(req.user)){
+    socket.getIo().in(req.body.game_id).emit('judge', req.user.name)
+  }
   res.send({isJudge: gameObj.isJudge(req.user)});
 
 })

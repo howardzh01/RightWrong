@@ -18,17 +18,14 @@ class Judge extends Component {
         intro: '',
         round_started: false,
         sentenceMap: {},
-        winner_id: '',
+        winner_sentence: '',
         round_finished: false,
       };
     }
   
     componentDidMount() {
       console.log('judge remounted')
-      post('/api/startRound', {game_id: this.props.game_id}).then((rounds) => {
-        // console.log(rounds.length)
-        // this.props.updateRound(rounds.length);
-      });
+      post('/api/startRound', {game_id: this.props.game_id});
       socket.on('displaySentences', (sentenceMap) => {
         this.setState({sentenceMap: sentenceMap});
       })
@@ -50,13 +47,23 @@ class Judge extends Component {
     handleWinnerChange = (event) =>{
       const value  =event.target.value;
       this.setState({
-        winner_id: value
+        winner_sentence: value
       });
     }
     submitWinner = (event) => {
-      post('/api/updateWinner', {game_id: this.props.game_id, winner_id: this.state.winner_id, winner_name: this.props.userMap[this.state.winner_id]}).then(()=>{
-        this.setState({round_finished: true, winner_id: ''});
-      })
+      if(Object.keys(this.state.sentenceMap).length < 1){
+          alert("Wait for more submissions!")
+        }
+      else if(this.state.winner_sentence < 1 || this.state.winner_sentence > Object.keys(this.state.sentenceMap).length){
+        alert("Invalid sentence number!")
+      }
+      else{
+        const winner_id = Object.keys(this.state.sentenceMap)[this.state.winner_sentence-1]
+        console.log(winner_id)
+        post('/api/updateWinner', {game_id: this.props.game_id, winner_id: winner_id, winner_name: this.props.userMap[winner_id]}).then(()=>{
+          this.setState({round_finished: true, winner_sentence: ''});
+        })
+      }
     }
 
     nextRound = (event) => {
@@ -108,19 +115,19 @@ class Judge extends Component {
           </div>
 
           <div>
-            {Object.keys(this.state.sentenceMap).map((userId) => (<div key = {userId}> {userId} {this.props.userMap[userId]}: {this.state.sentenceMap[userId]} </div>))}
+            {Object.keys(this.state.sentenceMap).map((userId, index) => (<div key = {userId}> {index +1}. {this.props.userMap[userId]} wrote: {this.state.sentenceMap[userId]}</div>))}
           </div>
           <div className = 'centeredText'>
-          Type the winning userId 
-          <div>
+          Type the number of the best sentence
+
           <input
-              type="text"
-              value={this.state.winner_id}
+              type="number"
+              value={this.state.winner_sentence}
               onChange={this.handleWinnerChange}
               className = "css-input"
           />  
           <button type="submit" onClick={this.submitWinner} className = "myButton">Submit</button>
-          </div>
+    
           </div>
         </>
       )

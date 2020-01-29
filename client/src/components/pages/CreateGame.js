@@ -47,13 +47,13 @@ class CreateGame extends Component {
 
 
   startGame = (event) => {
-    // if(this.state.joined_users.length <=1){
-    //   this.setState({
-    //     rounds: 0
-    //   });
-    //   alert("Wait for more players!")
-    // }
-    if(this.props.userId)
+    if(this.state.joined_users.length <=1){
+      this.setState({
+        rounds: 0
+      });
+      alert("Wait for more players!")
+    }
+    else if(this.props.userId)
     {
       post("/api/updateGameInfo", {game_id: this.state.game_id, rounds: this.state.rounds}).then((game) => {
         this.props.setGame(this.state.game_id);
