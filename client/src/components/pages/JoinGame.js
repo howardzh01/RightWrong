@@ -44,11 +44,14 @@ class JoinGame extends Component {
   };
 
   render() {
+    if (!this.props.userId){
+      return(<div className = 'error'> Please login first</div>)
+    }
     return (
         <>  
           <div className = 'subtitle'> Join Game </div>
           <div className = 'centeredText'>   
-          <div> Enter Name of Who You Want to Play With</div>
+          <div> Enter the Game Code</div>
           <div>
           <input
           type="text"

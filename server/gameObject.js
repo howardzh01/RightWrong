@@ -5,7 +5,7 @@ class gameObject {
     {
         this.gameId = gameId
         this.users = []
-        this.rounds = [] //pass in round object\
+        this.rounds = [] //pass in round object
         this.can_join = true
         this.total_rounds = undefined
     }
@@ -16,6 +16,7 @@ class gameObject {
     
     addNewRound()
     {
+        console.log(this.users[this.rounds.length % this.users.length])
         this.rounds.push(new roundObject(this.gameId, this.users[this.rounds.length % this.users.length], this.rounds.length))
     }
 
@@ -46,7 +47,3 @@ class gameObject {
 }
 
 module.exports = gameObject;
-
-// myMap = {};
-
-// myMap[userId] = asdf

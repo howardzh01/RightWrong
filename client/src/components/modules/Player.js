@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { get, post } from "../../utilities";
 import { socket } from "../../client-socket.js";
-import { navigate } from "@reach/router";
+
 
 /**
  * Player is a component that creates the intro for the round
@@ -60,7 +60,15 @@ class Player extends Component {
 
       
     render() {
-      if(this.state.winner_name){
+
+      if(!this.state.intro) {
+        return(<>
+        <div>
+          Please wait for the judge to give the beginning of the sentence
+        </div></>)
+      }
+
+      else if(this.state.winner_name){
         return(<>
         <div>The winner is {this.state.winner_name}</div>
         </>)
@@ -70,7 +78,7 @@ class Player extends Component {
           // let sentenceList = this.state.sentence_arr.map((sentence) => (<div> {sentence.writer.name} wrote {sentence.content}. </div>))
           return (<> 
           <div>
-              Good job submitting your sentence! For this round, the sentences submitted so far are (need socket)
+              Good job submitting your sentence! For this round, the sentences submitted so far are
           </div>
           <div>
             {Object.keys(this.state.sentenceMap).map((userId) => (<div key = {userId}> {userId} {this.props.userMap[userId]}: {this.state.sentenceMap[userId]} </div>))}

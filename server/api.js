@@ -93,6 +93,7 @@ router.post('/updateGameInfo', auth.ensureLoggedIn, (req, res) => {
   gameObj = gameCodeToGameMap[req.body.game_id]
   gameObj.can_join = false;
   gameObj.total_rounds = req.body.rounds
+  socket.getIo().in(req.body.game_id).emit('totalRounds', req.body.rounds);
   res.send(gameObj)
 })
 
@@ -128,8 +129,6 @@ router.get('/isJudge', auth.ensureLoggedIn, (req, res) => {
 
 router.post('/startRound', auth.ensureLoggedIn, (req, res) => {
   gameObj = gameCodeToGameMap[req.body.game_id]
-
-  console.log('previous', gameObj)
   gameObj.addNewRound()
   console.log('after', gameObj)
   console.log(gameObj.rounds.length)

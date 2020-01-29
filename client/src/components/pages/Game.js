@@ -14,8 +14,9 @@ class Game extends Component {
     this.state = {
       inputText: "",
       game: {},
-      round_number: 0,
+      round_number: undefined,
       isJudge: undefined,
+      total_rounds: undefined,
     };
   }
 
@@ -41,17 +42,17 @@ class Game extends Component {
   socket.on('updateRoundNumber', (round_number) =>{
     this.setState({round_number: round_number});
   })
+  socket.on('totalRounds', (total_rounds) =>{
+    this.setState({total_rounds: total_rounds})
+  })
 }
 
 nextRound = () => {
     get('/api/isJudge', {game_id: this.props.game_id}).then((obj) => {
       this.setState({isJudge: obj.isJudge});
-      console.log('is judg', this.state.isJudge)
     })
     get('/api/gameObject', {game_id: this.props.game_id}).then((game) => {
     this.setState({game: game});
-
-    console.log(this.state.game)
     })
 
 
@@ -78,7 +79,6 @@ nextRound = () => {
     // this.setState({round_number: round_number})
   }
   render() {
-    
     if (!this.state.game || this.state.isJudge === undefined) {
       return <div>loading</div>
     }
@@ -88,7 +88,13 @@ nextRound = () => {
     //        Game Over
     //     </>)   
     // }
-
+    else if(this.state.round_number > this.state.game.total_rounds)
+    {
+      return(<><div className = 'subtitle'>
+      Game Over
+      </div>
+      </>)
+    }
     else if (this.state.isJudge)
       {
         //render starter page
@@ -96,9 +102,9 @@ nextRound = () => {
           <>
 
           <div className = 'subtitle'> You are the judge of game {this.state.game.gameId}</div>
-          <div>The number of rounds is {this.state.round_number}</div>
+          <div>We are on round {this.state.round_number} of {this.state.game.total_rounds}</div>
           {this.state.game.users && <div>You are playing with {this.state.game.users.map((user) => (<div key = {user._id}> {user.name} </div>))}</div>}
-          <Judge game_id = {this.props.game_id} userMap = {this.generateUserIdMap()} judge = {this.props.userId} updateRound = {this.updateRoundNumber} ></Judge>
+          <Judge game_id = {this.props.game_id} userMap = {this.generateUserIdMap()} ></Judge>
           </>
         )
       }
@@ -106,9 +112,9 @@ nextRound = () => {
     return (
       <> 
         <div className = 'subtitle'> You are playing the game {this.state.game.gameId}</div>
-        <div>The number of rounds is {this.state.round_number}</div>
-        {this.state.game.users && <div>You are playing with {this.state.game.users.map((user) => (<div key = {user._id}> {user.name} </div>))}</div>}
-        {<Player game_id = {this.props.game_id} userMap = {this.generateUserIdMap()}  judge = {this.props.userId} updateRound = {this.updateRoundNumber}></Player>}
+        {this.state.total_rounds && <div>We are on round {this.state.round_number} of {this.state.total_rounds}</div>}
+        {this.state.game.users && <div>Players include: {this.state.game.users.map((user) => (<div key = {user._id}> {user.name} </div>))}</div>}
+        {<Player game_id = {this.props.game_id} userMap = {this.generateUserIdMap()}></Player>}
 
       </>
         

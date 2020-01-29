@@ -12,7 +12,7 @@ class CreateGame extends Component {
     this.state = {
       game_id: this.generateGameId(),
       game: undefined,
-      rounds: undefined,
+      rounds: 0,
       joined_users: [],
     };
   }
@@ -47,7 +47,12 @@ class CreateGame extends Component {
 
 
   startGame = (event) => {
-    console.log(this.props.userId)
+    // if(this.state.joined_users.length <=1){
+    //   this.setState({
+    //     rounds: 0
+    //   });
+    //   alert("Wait for more players!")
+    // }
     if(this.props.userId)
     {
       post("/api/updateGameInfo", {game_id: this.state.game_id, rounds: this.state.rounds}).then((game) => {
@@ -66,7 +71,9 @@ class CreateGame extends Component {
   
 
   render() {
-
+    if (!this.props.userId){
+      return(<div className = 'error'> Please login first</div>)
+    }
     return (
       <> 
         <div className = "subtitle">
@@ -84,7 +91,7 @@ class CreateGame extends Component {
             className="css-input"
             onChange={this.handleRoundInput}   
           /> 
-          <button type="submit" onClick={this.startGame} className = "myButton">Submit</button> 
+          <button type="submit" onClick={this.startGame} className = "myButton">Start Game</button> 
       </>
         
     );

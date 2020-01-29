@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { get, post } from "../../utilities";
 import { socket } from "../../client-socket";
-import { navigate } from "@reach/router";
+import "./Judge.css";
 
 /**
  * JUdge is a component that creates the intro for the round
@@ -24,6 +24,7 @@ class Judge extends Component {
     }
   
     componentDidMount() {
+      console.log('judge remounted')
       post('/api/startRound', {game_id: this.props.game_id}).then((rounds) => {
         // console.log(rounds.length)
         // this.props.updateRound(rounds.length);
@@ -77,15 +78,16 @@ class Judge extends Component {
     render() {
       if(this.state.round_finished)
       {
-        return(<> <div> Game is finished.  </div>
-        <button type="submit" onClick={this.nextRound} className = "myButton">Submit</button>
+        return(<> <div> Round is finished.  </div>
+        <button type="submit" onClick={this.nextRound} className = "myButton">Start Next Round</button>
         </>
         )
       }
       else if(!this.state.round_started)
       {
         return (<> 
-          <div> Please submit introduction of sentence</div>
+          <div className = 'centeredText'> Please submit the beginning of a sentence.
+          <div>
           <input
               type="text"
               value={this.state.intro}
@@ -93,11 +95,12 @@ class Judge extends Component {
               className = "css-input"
           />  
           <button type="submit" onClick={this.submitIntro} className = "myButton">Submit</button>
+          </div>
+          </div>
           </>
           )
       }
-      // console.log(this.state.s)
-      // console.log(Object.keys(this.state.sentenceMap))
+
       return(
         <>
           <div>
@@ -107,8 +110,9 @@ class Judge extends Component {
           <div>
             {Object.keys(this.state.sentenceMap).map((userId) => (<div key = {userId}> {userId} {this.props.userMap[userId]}: {this.state.sentenceMap[userId]} </div>))}
           </div>
-
-          <div> Type the winning userId </div>
+          <div className = 'centeredText'>
+          Type the winning userId 
+          <div>
           <input
               type="text"
               value={this.state.winner_id}
@@ -116,6 +120,8 @@ class Judge extends Component {
               className = "css-input"
           />  
           <button type="submit" onClick={this.submitWinner} className = "myButton">Submit</button>
+          </div>
+          </div>
         </>
       )
         
