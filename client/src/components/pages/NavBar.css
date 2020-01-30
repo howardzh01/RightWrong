@@ -2,7 +2,8 @@
 
 .NavBar-container {
   padding: var(--s) var(--m);
-  background-color: #453750;
+  background-color: #ccccff;
+  /* background-color: #453750; */
   margin-bottom: 45px;
 }
 
@@ -28,10 +29,11 @@
 
 .NavBar-title,
 .NavBar-link:visited {
-  color: #ffffff;
+  color: #F78900;
+  /* color: #ffffff; */
   font-family: "Luckiest Guy", cursive;
   -webkit-font-smoothing: antialiased;
-  font-size: 25px;
+  font-size: 50px;
   opacity: 0.95;
   text-shadow: 0 0.5px 0 #ccc, 0 1.5px 0 #ccc, 0 2px 0 #ccc, 0 2.5px 0 #ccc,
   0 3px 0 #ccc, 0 3.5px 0 transparent, 0 4px 0 transparent, 0 5px 0 transparent,
@@ -62,7 +64,7 @@
   text-decoration: none;
   font-family: Arial;
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 16px;
   letter-spacing: 1px;
 }
 

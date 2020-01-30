@@ -51,11 +51,7 @@ class JoinGame extends Component {
         <>  
           <div className = 'subtitle'> Join Game </div>
           <div className = 'centeredText'>   
-<<<<<<< HEAD
-          <div> Enter your game ID </div>
-=======
           <div> Enter the Game Code</div>
->>>>>>> b869d7ec9ce8ef9015b3c56398c859660fe0d1cd
           <div>
           <input
           type="text"
