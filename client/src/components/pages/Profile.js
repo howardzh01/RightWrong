@@ -18,7 +18,6 @@ class Profile extends Component {
     get(`/api/user`, { userId: this.props.userId }).then((user) => this.setState({user: user } ));
     get('/api/displayGames').then((games) =>{
       this.setState({games: games})
-      console.log(this.state.games)
       this.forceUpdate();
     })
   }
@@ -35,12 +34,10 @@ class Profile extends Component {
       {this.state.user.name}
       </div>)
     }
-    this.state.games.map((game) => 
-      console.log(game))
     return (
       <> 
       <div className = 'subtitle'>
-        {this.state.user.name}
+        {this.state.user.name} Game History
       </div>
       {this.state.games.map((game, index) => 
       <div key = {game._id}>

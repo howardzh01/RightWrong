@@ -31,6 +31,7 @@ class Game extends Component {
     });
     get('/api/isJudge', {game_id: this.props.game_id}).then((obj) => {
       this.setState({isJudge: obj.isJudge});
+      this.forceUpdate();
       // if(this.state.isJudge) {
       //   post('/api/startRound', {game_id: this.props.game_id})
       // }
@@ -81,9 +82,7 @@ nextRound = () => {
   }
   //how/where will we check when round.active == false?
 
-  updateRoundNumber = (round_number) =>{
-    // this.setState({round_number: round_number})
-  }
+
   render() {
     // const leaderboard = (<Leaderboard userMap = {this.generateUserIdMap()}> </Leaderboard>)
     if (!this.state.game || this.state.isJudge === undefined) {

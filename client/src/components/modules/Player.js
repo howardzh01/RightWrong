@@ -35,7 +35,6 @@ class Player extends Component {
       })
       socket.on('revealWinner', (winner_name) => {
         this.setState({winner_name: winner_name});
-        console.log(this.state.winner_name)
       })
       socket.on('judge', (judge) =>{
         this.setState({judge_name: judge});
