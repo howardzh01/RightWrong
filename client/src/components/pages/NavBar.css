@@ -29,6 +29,9 @@
 
 .NavBar-title,
 .NavBar-link:visited {
+  font-family: Arial;
+  text-decoration: none;
+  font-size: 20px;
   color: #F78900;
   /* color: #ffffff; */
   font-family: "Luckiest Guy", cursive;
@@ -79,3 +82,4 @@
 .NavBar-link + .NavBar-link {
   margin-left: var(--m);
 }
+

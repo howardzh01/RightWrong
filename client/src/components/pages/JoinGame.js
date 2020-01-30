@@ -48,8 +48,8 @@ class JoinGame extends Component {
       return(<div className = 'error'> Please login first</div>)
     }
     return (
-        <>  
-          <div className = 'subtitle'> Join Game </div>
+        <> 
+          <div className = 'joingame-subtitle'> Join Game </div>
           <div className = 'centeredText'>   
           <div> Enter the Game Code</div>
           <div>

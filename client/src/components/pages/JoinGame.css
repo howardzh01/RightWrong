@@ -4,10 +4,19 @@
     width: 60%;
     text-align: center;
     font-size: 40px;
+    font-family: "Bangers", cursive;
+  }
+
+  .joingame-subtitle{
+    margin-top: 60px;
+    margin-bottom: 8px;
+    text-align: center;
+    font-size: 60px;
+    font-family: "Bangers", cursive;
   }
 
   .css-input {
-    margin-top: 40px;
+    margin-top: 20px;
     padding: 5px;
     font-size: 20px;
     border-width: 1px;
@@ -58,7 +67,7 @@
   position:relative;
   display:inline-block;
   cursor:pointer;
-  margin:20px;
+  margin:10px;
 }
 
 .inputbutton a{
@@ -66,7 +75,7 @@
   font-family:Arial, sans-serif;
   text-transform: lowercase;
   font-weight:bold;
-  font-size: 15px;
+  font-size: 30px;
   text-align: center;
   text-decoration:none;
   letter-spacing: 1px;
@@ -110,3 +119,4 @@
   -moz-border-radius: 1px;
   border-radius: 1px;
 }
+

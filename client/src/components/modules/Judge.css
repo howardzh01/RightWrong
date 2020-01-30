@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Istok+Web&display=swap');
+
+.prompt{
+    margin-top: 20px;
+    font-family: "Indie Flower", cursive;
+    font-size: 50px;
+    text-align: center;
+}
+
+.response{
+    font-family: "Indie Flower", cursive;
+    font-size:29px;
+}
+
+.margin-top{
+    margin-top: 10px;
+    text-align: center;
+}
+
+hr{
+    height:1px;
+    text-align: center;
+    width: 60%;
+
+}
+
+.judge-subtitle{
+    font-family: 'Isok Web', sans-serif;
+    text-align: center;
+    font-size: 40px;
+    margin-top: 40px;
+    margin-bottom: 15px;
+
+
+}
+
+.orange-font{
+    color: #F78900;
+    text-decoration: underline;
+}

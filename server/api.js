@@ -94,6 +94,7 @@ router.post('/updateGameInfo', auth.ensureLoggedIn, (req, res) => {
   gameObj.can_join = false;
   gameObj.total_rounds = req.body.rounds
   gameObj.initializeLeaderBoard();
+
   socket.getIo().in(req.body.game_id).emit('totalRounds', req.body.rounds);
   res.send(gameObj)
 })
@@ -136,6 +137,7 @@ router.post('/startRound', auth.ensureLoggedIn, (req, res) => {
   gameObj.addNewRound()
   // console.log('after', gameObj)
   // console.log(gameObj.rounds.length)
+  socket.getIo().in(req.body.game_id).emit('leaderboard', gameObj.usersToScore)
   socket.getIo().in(req.body.game_id).emit('updateRoundNumber', gameObj.rounds.length)
   res.send({});
 })

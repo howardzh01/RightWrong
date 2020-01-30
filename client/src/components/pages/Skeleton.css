@@ -54,14 +54,13 @@
   0 9px 0 transparent, 0 10px 10px rgba(0, 0, 0, 0.4);
   }
 
-  .subtitle {
-    margin: auto;
-    width: 60%;
+  .skeleton-subtitle {
     text-align: center;
     font-family: "Bangers", cursive;
-    font-size: 20px;
+    margin-top: 40px;
+    margin-bottom: 8px;
+    font-size: 40px;
   }
-
   .centeredText {
     margin: auto;
     width: 60%;
@@ -84,12 +83,14 @@
   }
 
 .button {
+  font-family: Arial;
+  text-decoration: none;
+  font-size: 20px;
   display: inline-block;
   padding: .75rem 1.25rem;
   border-radius: 10rem;
   color: #fff;
   text-transform: uppercase;
-  font-size: 1rem;
   letter-spacing: .15rem;
   transition: all .6s;
   position: relative;
@@ -132,11 +133,11 @@
 }
 
 /* optional reset for presentation */
-* {
+/* * {
   font-family: Arial;
   text-decoration: none;
   font-size: 20px;
-}
+} */
 
 .container {
   padding-top: 50px;

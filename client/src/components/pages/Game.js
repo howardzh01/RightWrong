@@ -18,6 +18,7 @@ class Game extends Component {
       round_number: undefined,
       isJudge: undefined,
       total_rounds: undefined,
+      leaderboard: {},
     };
   }
 
@@ -46,9 +47,13 @@ class Game extends Component {
   socket.on('totalRounds', (total_rounds) =>{
     this.setState({total_rounds: total_rounds})
   })
+  socket.on('leaderboard', (leaderboard) =>{
+    this.setState({leaderboard: leaderboard});
+})
 }
 
 nextRound = () => {
+
     get('/api/isJudge', {game_id: this.props.game_id}).then((obj) => {
       this.setState({isJudge: obj.isJudge});
     })
@@ -80,6 +85,7 @@ nextRound = () => {
     // this.setState({round_number: round_number})
   }
   render() {
+    const leaderboard = (<Leaderboard userMap = {this.generateUserIdMap()}> </Leaderboard>)
     if (!this.state.game || this.state.isJudge === undefined) {
       return <div>loading</div>
     }
@@ -94,6 +100,9 @@ nextRound = () => {
       return(<><div className = 'subtitle'>
       Game Over
       </div>
+      {this.state.leaderboard !== 0 && (<div id = "playerBorderDemo" className = "centeredText">
+        {Object.keys(this.state.leaderboard).map((userId) => (<div key = {userId}> {this.generateUserIdMap()[userId]}: {this.state.leaderboard[userId]}</div>))}
+        </div>)}
       </>)
     }
     else if (this.state.isJudge)
@@ -102,9 +111,14 @@ nextRound = () => {
         return (
           <>
 
-          <div className = 'subtitle'> You are the judge of game {this.state.game.gameId}</div>
-          <div>We are on round {this.state.round_number} of {this.state.game.total_rounds}</div>
-          {this.state.game.users && <div>You are playing with {this.state.game.users.map((user) => (<div key = {user._id}> {user.name} </div>))}</div>}
+          <div className = 'subtitle'> You are the judge of round {this.state.round_number} of {this.state.game.total_rounds}</div>
+          {/* <div>We are on round {this.state.round_number} of {this.state.game.total_rounds}</div> */}
+          {this.state.game.users && Object.keys(this.state.leaderboard) === 0 && (<div id = "judgeBorderDemo" className = "centeredText">
+          <div>Players include: {this.state.game.users.map((user) => (<div key = {user._id}> {user.name} </div>))}</div>}
+          </div>)}
+          {this.state.leaderboard !== 0 && (<div id = "judgeBorderDemo" className = "centeredText">
+          {Object.keys(this.state.leaderboard).map((userId) => (<div key = {userId}> {this.generateUserIdMap()[userId]}: {this.state.leaderboard[userId]}</div>))}
+          </div>)}
           <Judge game_id = {this.props.game_id} userMap = {this.generateUserIdMap()} ></Judge>
           </>
         )
@@ -112,10 +126,14 @@ nextRound = () => {
     //screen for the players
     return (
       <> 
-        <div className = 'subtitle'> You are playing the game {this.state.game.gameId}</div>
-        {this.state.total_rounds && <div>We are on round {this.state.round_number} of {this.state.total_rounds}</div>}
-        {this.state.game.users && <div>Players include: {this.state.game.users.map((user) => (<div key = {user._id}> {user.name} </div>))}</div>}
-        {!this.state.game.can_join && <Leaderboard userMap = {this.generateUserIdMap()}> </Leaderboard>}
+        {!this.state.total_rounds && <div className = 'subtitle'> This Round You are a Player. Waiting for Judge ...</div>}
+        {this.state.total_rounds && <div className = 'subtitle'> You are playing round {this.state.round_number} of {this.state.total_rounds}</div>}
+        {this.state.game.users && Object.keys(this.state.leaderboard) === 0 && (<div id = "playerBorderDemo" className = "centeredText">
+        <div>Players include: {this.state.game.users.map((user) => (<div key = {user._id}> {user.name} </div>))}</div>}
+        </div>)}
+        {this.state.leaderboard !== 0 && (<div id = "playerBorderDemo" className = "centeredText">
+        {Object.keys(this.state.leaderboard).map((userId) => (<div key = {userId}> {this.generateUserIdMap()[userId]}: {this.state.leaderboard[userId]}</div>))}
+        </div>)}
         {<Player game_id = {this.props.game_id} userMap = {this.generateUserIdMap()}></Player>}
 
       </>

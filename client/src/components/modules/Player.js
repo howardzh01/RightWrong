@@ -45,8 +45,6 @@ class Player extends Component {
       //   // window.location.replace("/game/" + this.props.game_id)
       //   // navigate(`/Game/${this.props.game_id}`);
       // })
-
-      console.log('mounted player', this.state.intro)
     }
 
     handleInputChange = (event) =>{
@@ -69,26 +67,26 @@ class Player extends Component {
 
       if(!this.state.intro) {
         return(<>
-        <div>
-          Please wait for the judge {this.state.judge_name} to give the beginning of the sentence
-        </div></>)
+        <div className = 'centeredText'>Waiting for the judge to write the intro </div>
+         </>)
       }
 
       else if(this.state.winner_name){
         return(<>
-        <div>The winner is {this.state.winner_name}</div>
+        <div className = 'subtitle'>Congrats {this.state.winner_name}</div>
         </>)
 
       }
       else if(this.state.submitted) {
           // let sentenceList = this.state.sentence_arr.map((sentence) => (<div> {sentence.writer.name} wrote {sentence.content}. </div>))
           return (<> 
-          <div>Waiting for judge {this.state.judge_name} </div>
-          <div>
-              Good job submitting your sentence! For this round, the sentences submitted so far are
+          <div className = 'centeredText'> Waiting for the judge to decide winner </div>
+          <hr></hr>
+          <div className= 'prompt'>
+            {this.state.intro}...
           </div>
-          <div>
-            {Object.keys(this.state.sentenceMap).map((userId, index) => (<div key = {userId}> {index+1}. {this.props.userMap[userId]} wrote: {this.state.sentenceMap[userId]}</div>))}
+          <div className = 'centeredText'>
+            {Object.keys(this.state.sentenceMap).map((userId, index) => (<div key = {userId}> {index+1}. {this.props.userMap[userId]} wrote: <span className = 'response'>{this.state.intro} {this.state.sentenceMap[userId]}</span></div>))}
           </div>
           
           </>)
@@ -96,9 +94,11 @@ class Player extends Component {
         }
 
         return (<> 
-        <div>
-            The beginning of your sentence must be <div>{this.state.intro}</div>
-        </div> 
+        <div className = 'centeredText'>Complete the sentence</div>
+        <div className= 'prompt'>
+            {this.state.intro}...
+        </div>
+        <div className = 'centeredText'>
         <input
             type="text"
             value={this.state.inputText}
@@ -106,6 +106,7 @@ class Player extends Component {
             className = "css-input"
         />  
         <button type="submit" onClick={this.submitSentence} className = "myButton">Submit</button>
+        </div>
         </>
         )
     }

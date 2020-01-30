@@ -68,25 +68,17 @@ class Judge extends Component {
 
     nextRound = (event) => {
       console.log('next round is called')
-      post('/api/endRound', {game_id: this.props.game_id})
-      // post('/api/startRound', {game_id: this.props.game_id}).then((rounds) => {
-      //   // this.props.updateRound(rounds.length);
-
-      //   post('/api/endRound', {game_id: this.props.game_id})
-      // });
-      
+      post('/api/endRound', {game_id: this.props.game_id})   
     };
       
-      // window.location.replace("/game/" + this.props.game_id) //buggy
-      // navigate(`/Game/${this.props.game_id}`));
-
       
 
     render() {
       if(this.state.round_finished)
       {
-        return(<> <div> Round is finished.  </div>
-        <button type="submit" onClick={this.nextRound} className = "myButton">Start Next Round</button>
+        return(<> <div className = 'judge-subtitle'> Round is finished.  </div>
+        <div className = "margin-top">
+        <button type="submit" onClick={this.nextRound} className = "myButton" >Start Next Round</button></div>
         </>
         )
       }
@@ -110,16 +102,20 @@ class Judge extends Component {
 
       return(
         <>
-          <div>
-            The intro is {this.state.intro}
+          <div className= 'prompt'>
+            {this.state.intro}...
           </div>
 
-          <div>
-            {Object.keys(this.state.sentenceMap).map((userId, index) => (<div key = {userId}> {index +1}. {this.props.userMap[userId]} wrote: {this.state.sentenceMap[userId]}</div>))}
-          </div>
           <div className = 'centeredText'>
-          Type the number of the best sentence
-
+            {Object.keys(this.state.sentenceMap).map((userId, index) => (<div key = {userId}> {index +1}. 
+            <span className = 'response'> {this.state.intro} {this.state.sentenceMap[userId]}</span></div>))}
+          </div>
+          {Object.keys(this.state.sentenceMap).length < 1 && <div className = 'centeredText'> Waiting for responses</div>}
+          {Object.keys(this.state.sentenceMap).length >= 1 && <div className = 'centeredText' className = 'margin-top'>
+          <div className = 'centeredText'>
+          Please type the winning sentence number 
+          </div>
+          <div>
           <input
               type="number"
               value={this.state.winner_sentence}
@@ -127,8 +123,9 @@ class Judge extends Component {
               className = "css-input"
           />  
           <button type="submit" onClick={this.submitWinner} className = "myButton">Submit</button>
-    
           </div>
+          </div>
+          }
         </>
       )
         

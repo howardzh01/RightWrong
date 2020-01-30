@@ -21,9 +21,12 @@ class Leaderboard extends Component {
   
 
   render() {
+      console.log(this.state)
     return (
       <>    
-      {Object.keys(this.state.leaderboard).map((userId) => (<div key = {userId}> {this.props.userMap[userId]} wrote: {this.state.leaderboard[userId]}</div>))}
+      <div id = "borderDemo" className = "centeredText">
+      {Object.keys(this.state.leaderboard).map((userId) => (<div key = {userId}> {this.props.userMap[userId]}: {this.state.leaderboard[userId]}</div>))}
+      </div>
       </>
     );
   }

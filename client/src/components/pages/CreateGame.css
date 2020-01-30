@@ -35,7 +35,7 @@
     font-size: 20px;
   }
 
-/*
+
   .myButton {
 	background:linear-gradient(to bottom, #ccccff 5%, #bc80ea 70%);
 	background-color:#ccccff;
@@ -57,8 +57,28 @@
 	position:relative;
 	top:1px;
 }
-*/
+
 
 .topMargin {
     margin-top: 30px;
+}
+/* 
+.numberOfPlayers {
+  text-decoration: underline;
+  
+} */
+
+#judgeBorderDemo {
+  margin-top: 1%;
+  border: 9px double rgba(247,137,0,0.95);
+  border-radius: 17px 17px 17px 17px;
+  width: 40%;
+  }
+
+#playerBorderDemo{
+  margin-top: 1%;
+  border: 9px double rgba(204,204,255,0.95);
+  border-radius: 17px 17px 17px 17px;
+  width: 40%;
+  margin-bottom: 2%;
 }

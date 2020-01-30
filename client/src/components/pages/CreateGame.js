@@ -76,15 +76,13 @@ class CreateGame extends Component {
     }
     return (
       <> 
-        <div className = "subtitle">
+        <div className = "joingame-subtitle">
           Your Game ID: {this.state.game_id}
         </div>
-        <div>
-          {this.state.joined_users.map((user) => (<div key = {user._id}> {user.name} </div>))}
-        </div>
+        
         <div className="centeredText">
           How many rounds do you want to play?
-        {/* <div className = "centeredText"> Number of players: {this.state.game.players.length}</div> */}
+        
         </div>
         <div className="centeredText">
           <input
@@ -97,6 +95,12 @@ class CreateGame extends Component {
                 <a href="#">play!</a>
               </div> 
             </div>
+        </div >
+        <div id = "borderDemo" className = "centeredText">
+        <div className = "centeredText"> Players Who Have Joined ({this.state.joined_users.length}) </div>
+        <div>
+          {this.state.joined_users.map((user) => (<div className = 'centeredText'key = {user._id}> {user.name} </div>))}
+        </div>
         </div>
       </>
         

@@ -19,7 +19,7 @@ class Skeleton extends Component {
     return (
       <> 
         <div className = "title">Right Wrong</div>
-        <div className = "subtitle">Fill-in-the-Blanks. Wrong Answers Only.</div>
+        <div className = "skeleton-subtitle">Fill-in-the-Blanks. Wrong Answers Only.</div>
         <div className="container"> 
           <Link to= "/JoinGame/" href="#" className ="button join"> Join Game</Link>
         </div>
