@@ -150,9 +150,11 @@ router.post('/updateIntroSentence', auth.ensureLoggedIn, (req, res) => {
 })
 
 router.post('/updateWinner', auth.ensureLoggedIn, (req, res) => {
+  console.log(req.user.name, 'called updated winner')
   gameObj = gameCodeToGameMap[req.body.game_id]
   gameObj.getCurrentRound().winner_userId = req.body.winner_id
   gameObj.usersToScore[req.body.winner_id] +=1 
+  console.log(gameObj.usersToScore)
   socket.getIo().in(req.body.game_id).emit('leaderboard', gameObj.usersToScore)
   socket.getIo().in(req.body.game_id).emit('revealWinner', req.body.winner_name)
   // console.log(gameObj.getCurrentRound())

@@ -34,6 +34,9 @@ class Judge extends Component {
         this.setState({winner_name: winner_name});
       })
     }
+    // componentWillUnmount(){
+    //   socket.removeAllListeners();
+    // }
 
     handleInputChange = (event) =>{
         const value  =event.target.value;
