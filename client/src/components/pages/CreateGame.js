@@ -12,7 +12,7 @@ class CreateGame extends Component {
     this.state = {
       game_id: this.generateGameId(),
       game: undefined,
-      rounds: undefined,
+      rounds: 0,
       joined_users: [],
     };
   }
@@ -32,7 +32,7 @@ class CreateGame extends Component {
       })
     }
     
-    socket.on('yo', (users) => {
+    socket.on('displayUsers', (users) => {
       // do stuff
       this.setState({joined_users: users});
     })
@@ -47,8 +47,13 @@ class CreateGame extends Component {
 
 
   startGame = (event) => {
-    console.log(this.props.userId)
-    if(this.props.userId)
+    if(this.state.joined_users.length <=1){
+      this.setState({
+        rounds: 0
+      });
+      alert("Wait for more players!")
+    }
+    else if(this.props.userId)
     {
       post("/api/updateGameInfo", {game_id: this.state.game_id, rounds: this.state.rounds}).then((game) => {
         this.props.setGame(this.state.game_id);
@@ -66,14 +71,16 @@ class CreateGame extends Component {
   
 
   render() {
-
+    if (!this.props.userId){
+      return(<div className = 'error'> Please login first</div>)
+    }
     return (
       <> 
         <div className = "subtitle">
           Your Game ID: {this.state.game_id}
         </div>
         <div>
-
+          {this.state.joined_users.map((user) => (<div key = {user._id}> {user.name} </div>))}
         </div>
         <div className="centeredText">
           How many rounds do you want to play?

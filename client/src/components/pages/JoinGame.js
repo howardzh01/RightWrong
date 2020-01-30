@@ -16,10 +16,6 @@ class JoinGame extends Component {
 
   componentDidMount() {
     document.title = "Join!!!"; 
-    socket.on('yo', (roomId) => {
-      // do stuff
-      console.log(roomId);
-    })
   }
 
   handleInputChange = (event) =>{
@@ -48,6 +44,9 @@ class JoinGame extends Component {
   };
 
   render() {
+    if (!this.props.userId){
+      return(<div className = 'error'> Please login first</div>)
+    }
     return (
         <>  
           <div className = 'subtitle'> Join Game </div>
