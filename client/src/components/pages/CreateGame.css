@@ -82,3 +82,19 @@
   width: 40%;
   margin-bottom: 2%;
 }
+
+#gameHistoryDemo{
+  margin-top: 3%;
+  border: 9px double rgba(204,204,255,0.95);
+  border-radius: 17px 17px 17px 17px;
+  width: 40%;
+  margin-bottom: 3%;
+}
+
+.gameHistoryTitle{
+  margin-top: 8px;
+  margin-bottom: 8px;
+  text-align: center;
+  font-size: 40px;
+  font-family: "Bangers";
+}

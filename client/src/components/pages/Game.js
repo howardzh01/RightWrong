@@ -85,18 +85,15 @@ nextRound = () => {
     // this.setState({round_number: round_number})
   }
   render() {
-    const leaderboard = (<Leaderboard userMap = {this.generateUserIdMap()}> </Leaderboard>)
+    // const leaderboard = (<Leaderboard userMap = {this.generateUserIdMap()}> </Leaderboard>)
     if (!this.state.game || this.state.isJudge === undefined) {
       return <div>loading</div>
     }
-    // else if (!this.state.game.active){
-    //   return (
-    //     <> 
-    //        Game Over
-    //     </>)   
-    // }
     else if(this.state.round_number > this.state.game.total_rounds)
     {
+      if (this.state.isJudge){
+        post('/api/gameOver', {game_id: this.props.game_id})
+      }
       return(<><div className = 'subtitle'>
       Game Over
       </div>
@@ -113,7 +110,7 @@ nextRound = () => {
 
           <div className = 'subtitle'> You are the judge of round {this.state.round_number} of {this.state.game.total_rounds}</div>
           {/* <div>We are on round {this.state.round_number} of {this.state.game.total_rounds}</div> */}
-          {this.state.game.users && Object.keys(this.state.leaderboard) === 0 && (<div id = "judgeBorderDemo" className = "centeredText">
+          {this.state.game.users && Object.keys(this.state.leaderboard).length === 0 && (<div id = "judgeBorderDemo" className = "centeredText">
           <div>Players include: {this.state.game.users.map((user) => (<div key = {user._id}> {user.name} </div>))}</div>}
           </div>)}
           {this.state.leaderboard !== 0 && (<div id = "judgeBorderDemo" className = "centeredText">
@@ -128,10 +125,10 @@ nextRound = () => {
       <> 
         {!this.state.total_rounds && <div className = 'subtitle'> This Round You are a Player. Waiting for Judge ...</div>}
         {this.state.total_rounds && <div className = 'subtitle'> You are playing round {this.state.round_number} of {this.state.total_rounds}</div>}
-        {this.state.game.users && Object.keys(this.state.leaderboard) === 0 && (<div id = "playerBorderDemo" className = "centeredText">
-        <div>Players include: {this.state.game.users.map((user) => (<div key = {user._id}> {user.name} </div>))}</div>}
+        {this.state.game.users && Object.keys(this.state.leaderboard).length <=1 && (<div id = "playerBorderDemo" className = "centeredText">
+        <div>Players include: {this.state.game.users.map((user) => (<div key = {user._id}> {user.name} </div>))}</div>
         </div>)}
-        {this.state.leaderboard !== 0 && (<div id = "playerBorderDemo" className = "centeredText">
+        {Object.keys(this.state.leaderboard).length >1 && (<div id = "playerBorderDemo" className = "centeredText">
         {Object.keys(this.state.leaderboard).map((userId) => (<div key = {userId}> {this.generateUserIdMap()[userId]}: {this.state.leaderboard[userId]}</div>))}
         </div>)}
         {<Player game_id = {this.props.game_id} userMap = {this.generateUserIdMap()}></Player>}

@@ -24,7 +24,6 @@ class gameObject {
     
     addNewRound()
     {
-        console.log(this.users[this.rounds.length % this.users.length])
         this.rounds.push(new roundObject(this.gameId, this.users[this.rounds.length % this.users.length], this.rounds.length))
     }
 

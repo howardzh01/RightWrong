@@ -15,7 +15,7 @@ class JoinGame extends Component {
   }
 
   componentDidMount() {
-    document.title = "Join!!!"; 
+    document.title = "Join Game!"; 
   }
 
   handleInputChange = (event) =>{

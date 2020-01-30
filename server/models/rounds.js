@@ -1,3 +1,5 @@
+//not used
+
 const mongoose = require("mongoose");
 
 //define a game schema for the database

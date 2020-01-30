@@ -172,6 +172,30 @@ router.post('/submitSentence', auth.ensureLoggedIn, (req, res) => {
   socket.getIo().in(req.body.game_id).emit('displaySentences', gameObj.getCurrentRound().mapUserToSentence);
   res.send({})
 })
+//will write to mongoDB
+router.post('/gameOver', auth.ensureLoggedIn, (req, res) => {
+  gameObj = gameCodeToGameMap[req.body.game_id];
+  const game = new Game({
+    creator_name: gameObj.users[0].name,
+    total_rounds: gameObj.total_rounds,
+    users: gameObj.users.map((user) => user._id),
+    rounds: gameObj.rounds.slice(0, -1),
+    usersToScore: gameObj.usersToScore,
+    userIdMap: gameObj.mapUserIdToUser,
+  })
+  console.log('gameSaved')
+  game.save().then(res.send({}))
+  
+})
+
+router.get('/displayGames', auth.ensureLoggedIn, (req, res)=> {
+  Game.find({users: req.user._id}).then((games) =>{
+    // Game.find({}).then((gam) => {console.log(gam)})
+    console.log(games)
+    res.send(games);
+  });
+
+})
 
 // router.get('/getSentence', auth.ensureLoggedIn, (req, res) => {
 //   Sentence.find({game_id: req.query.game_id})

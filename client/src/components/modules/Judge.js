@@ -20,6 +20,7 @@ class Judge extends Component {
         sentenceMap: {},
         winner_sentence: '',
         round_finished: false,
+        winner_name: undefined,
       };
     }
   
@@ -28,6 +29,9 @@ class Judge extends Component {
       post('/api/startRound', {game_id: this.props.game_id});
       socket.on('displaySentences', (sentenceMap) => {
         this.setState({sentenceMap: sentenceMap});
+      })
+      socket.on('revealWinner', (winner_name) => {
+        this.setState({winner_name: winner_name});
       })
     }
 
@@ -76,7 +80,8 @@ class Judge extends Component {
     render() {
       if(this.state.round_finished)
       {
-        return(<> <div className = 'judge-subtitle'> Round is finished.  </div>
+        return(<> 
+        <div className = 'subtitle' >Congrats <span className = 'orange-font'>{this.state.winner_name}</span></div>
         <div className = "margin-top">
         <button type="submit" onClick={this.nextRound} className = "myButton" >Start Next Round</button></div>
         </>

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { get, post } from "../../utilities";
 import { socket } from "../../client-socket.js";
 
+import "./Judge.css";
 
 /**
  * Player is a component that creates the intro for the round
@@ -73,7 +74,7 @@ class Player extends Component {
 
       else if(this.state.winner_name){
         return(<>
-        <div className = 'subtitle'>Congrats {this.state.winner_name}</div>
+        <div className = 'subtitle' >Congrats <span className = 'orange-font'>{this.state.winner_name}</span></div>
         </>)
 
       }
