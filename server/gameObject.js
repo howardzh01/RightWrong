@@ -8,6 +8,14 @@ class gameObject {
         this.rounds = [] //pass in round object
         this.can_join = true
         this.total_rounds = undefined
+        this.usersToScore = {}
+        this.mapUserIdToUser = {}
+    }
+
+    initializeLeaderBoard(){
+        this.users.map((user) => {
+        this.usersToScore[user._id] = 0
+        this.mapUserIdToUser[user._id] = user});
     }
     getCurrentRound(){
         return this.rounds[this.rounds.length-1]

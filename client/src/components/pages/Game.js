@@ -6,6 +6,7 @@ import Player from "../modules/Player.js"
 
 import "./CreateGame.css";
 import { socket } from "../../client-socket";
+import Leaderboard from "../modules/Leaderboard";
 
 
 class Game extends Component {
@@ -114,6 +115,7 @@ nextRound = () => {
         <div className = 'subtitle'> You are playing the game {this.state.game.gameId}</div>
         {this.state.total_rounds && <div>We are on round {this.state.round_number} of {this.state.total_rounds}</div>}
         {this.state.game.users && <div>Players include: {this.state.game.users.map((user) => (<div key = {user._id}> {user.name} </div>))}</div>}
+        {!this.state.game.can_join && <Leaderboard userMap = {this.generateUserIdMap()}> </Leaderboard>}
         {<Player game_id = {this.props.game_id} userMap = {this.generateUserIdMap()}></Player>}
 
       </>

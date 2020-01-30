@@ -93,6 +93,7 @@ router.post('/updateGameInfo', auth.ensureLoggedIn, (req, res) => {
   gameObj = gameCodeToGameMap[req.body.game_id]
   gameObj.can_join = false;
   gameObj.total_rounds = req.body.rounds
+  gameObj.initializeLeaderBoard();
   socket.getIo().in(req.body.game_id).emit('totalRounds', req.body.rounds);
   res.send(gameObj)
 })
@@ -133,8 +134,8 @@ router.get('/isJudge', auth.ensureLoggedIn, (req, res) => {
 router.post('/startRound', auth.ensureLoggedIn, (req, res) => {
   gameObj = gameCodeToGameMap[req.body.game_id]
   gameObj.addNewRound()
-  console.log('after', gameObj)
-  console.log(gameObj.rounds.length)
+  // console.log('after', gameObj)
+  // console.log(gameObj.rounds.length)
   socket.getIo().in(req.body.game_id).emit('updateRoundNumber', gameObj.rounds.length)
   res.send({});
 })
@@ -149,8 +150,10 @@ router.post('/updateIntroSentence', auth.ensureLoggedIn, (req, res) => {
 router.post('/updateWinner', auth.ensureLoggedIn, (req, res) => {
   gameObj = gameCodeToGameMap[req.body.game_id]
   gameObj.getCurrentRound().winner_userId = req.body.winner_id
+  gameObj.usersToScore[req.body.winner_id] +=1 
+  socket.getIo().in(req.body.game_id).emit('leaderboard', gameObj.usersToScore)
   socket.getIo().in(req.body.game_id).emit('revealWinner', req.body.winner_name)
-  console.log(gameObj.getCurrentRound())
+  // console.log(gameObj.getCurrentRound())
   res.send({});
 })
 
