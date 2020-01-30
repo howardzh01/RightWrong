@@ -1,18 +1,19 @@
-.container {
+@import url("https://fonts.googleapis.com/css?family=Luckiest+Guy");
+@import url("https://fonts.googleapis.com/css?family=Bangers");
+
+
+/*.container {
     margin: auto;
     width: 600px;
     height: 300px;
     display: flex;
-    /* background-color: #efefef; */
-  }
+  } */
   
-  .flex.container{
+  .flex.container {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: stretch;
-    
-    
   }
   
   .margin.container .card {
@@ -21,6 +22,7 @@
     color: black;
   }
   
+  /*
   .card {
     margin: 10px 5px;
     padding: 1em;
@@ -32,27 +34,32 @@
     line-height: 100px;
     font-size: 40px;
     font-family: 'Dancing Script'
-  }
-  
-  .card.one {
-    background-color: #39ffce;
-  }
-  
-  .card.two {
-    background-color: #f95458;
-  }
+  }*/
 
   .document {
 
       margin: 10px
   }
 
+  .title {
+    margin: auto;
+    width: 60%;
+    text-align: center;
+    font-size: 80px;
+    color: #F78900;
+    font-family: "Luckiest Guy", cursive;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 0 1px 0 #915100, 0 1px 0 #915100, 0 3px 0 #915100, 0 4px 0 #915100,
+  0 5px 0 #915100, 0 6px 0 transparent, 0 7px 0 transparent, 0 8px 0 transparent,
+  0 9px 0 transparent, 0 10px 10px rgba(0, 0, 0, 0.4);
+  }
+
   .subtitle {
     margin: auto;
     width: 60%;
     text-align: center;
-    font-size: 40px;
-
+    font-family: "Bangers", cursive;
+    font-size: 20px;
   }
 
   .centeredText {
@@ -75,3 +82,96 @@
   .horizontal-line {
     width: 70%;
   }
+
+.button {
+  display: inline-block;
+  padding: .75rem 1.25rem;
+  border-radius: 10rem;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: .15rem;
+  transition: all .6s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.button.join {
+  animation: shadow-pulse 1.5s infinite;
+}
+
+.button:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #9882ac;
+  border-radius: 10rem;
+  z-index: -2;
+}
+.button:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: #73648a;
+  transition: all .6s;
+  border-radius: 10rem;
+  z-index: -1;
+}
+.button:hover {
+  color: #fff;
+}
+.button:hover:before {
+  width: 100%;
+}
+
+/* optional reset for presentation */
+* {
+  font-family: Arial;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.container {
+  padding-top: 50px;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+
+/*
+h1 {
+  text-transform: uppercase;
+  font-size: .8rem;
+  margin-bottom: 2rem;
+  color: #777;
+}
+
+span {
+  display: block;
+  margin-top: 2rem;
+  font-size: .7rem;
+  color: #777;
+}
+span a {
+  font-size: .7rem;
+  color: #999;
+  text-decoration: underline;
+}
+*/
+
+@keyframes shadow-pulse
+{
+     0% {
+          box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.5);
+     }
+     100% {
+          box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
+     }
+}

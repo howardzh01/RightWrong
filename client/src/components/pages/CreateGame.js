@@ -70,21 +70,27 @@ class CreateGame extends Component {
     return (
       <> 
         <div className = "subtitle">
-          The game id is {this.state.game_id}
+          Your Game ID: {this.state.game_id}
         </div>
         <div>
 
         </div>
-        <div>
-          Enter the number of rounds
-        </div>
+        <div className="centeredText">
+          How many rounds do you want to play?
         {/* <div className = "centeredText"> Number of players: {this.state.game.players.length}</div> */}
-        <input
-            type="number"
-            className="css-input"
-            onChange={this.handleRoundInput}   
-          /> 
-          <button type="submit" onClick={this.startGame} className = "myButton">Submit</button> 
+        </div>
+        <div className="centeredText">
+          <input
+              type="number"
+              className="css-input"
+              onChange={this.handleRoundInput}   
+            /> 
+            <div className="centeredText">
+              <div type="submit" onClick={this.startGame} className = "inputbutton">
+                <a href="#">play!</a>
+              </div> 
+            </div>
+        </div>
       </>
         
     );

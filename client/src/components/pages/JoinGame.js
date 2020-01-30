@@ -52,7 +52,7 @@ class JoinGame extends Component {
         <>  
           <div className = 'subtitle'> Join Game </div>
           <div className = 'centeredText'>   
-          <div> Enter Name of Who You Want to Play With</div>
+          <div> Enter your game ID </div>
           <div>
           <input
           type="text"
@@ -60,7 +60,11 @@ class JoinGame extends Component {
           value={this.state.inputText} 
           onChange={this.handleInputChange}
           />  
-          <button type="submit" onClick={this.submitGameRequest} className = 'myButton'>Submit</button>
+          <div ontouchstart="">
+            <div onClick={this.submitGameRequest} className = "inputbutton">
+              <a href="#">play!</a>
+            </div>
+          </div>
           </div>
           </div>
         </>

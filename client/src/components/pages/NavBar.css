@@ -1,15 +1,41 @@
+@import url("https://fonts.googleapis.com/css?family=Luckiest+Guy");
+
 .NavBar-container {
   padding: var(--s) var(--m);
-  background-color: #ccccff;
-
+  background-color: #453750;
+  margin-bottom: 45px;
 }
+
+/*
+.navBar-iconContainer{
+  padding: 0 35%;
+}
+
+.NavBar-icon {
+  background-image: url("../../dist/icon.png");
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  display: block;
+  padding-top: 100%;
+  border-radius: 50%;
+  background-position-y: center;
+  background-position-x: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+*/
 
 .NavBar-title,
 .NavBar-link:visited {
-  color: bab86c;
-  font-size: 20px;
-  opacity: 0.6;
-  text-decoration: none;
+  color: #ffffff;
+  font-family: "Luckiest Guy", cursive;
+  -webkit-font-smoothing: antialiased;
+  font-size: 25px;
+  opacity: 0.95;
+  text-shadow: 0 0.5px 0 #ccc, 0 1.5px 0 #ccc, 0 2px 0 #ccc, 0 2.5px 0 #ccc,
+  0 3px 0 #ccc, 0 3.5px 0 transparent, 0 4px 0 transparent, 0 5px 0 transparent,
+  0 6px 0 transparent, 0 10px 10px rgba(0, 0, 0, 0.4);
 }
 
 .NavBar-link:hover {
@@ -31,9 +57,13 @@
 
 .NavBar-link,
 .NavBar-link:visited {
-  color: bab86c;;
-  opacity: 0.6;
+  color: #a393bf;
+  opacity: 1;
   text-decoration: none;
+  font-family: Arial;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
 }
 
 .NavBar-link:hover {

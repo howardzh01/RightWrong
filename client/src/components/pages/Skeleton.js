@@ -17,28 +17,16 @@ class Skeleton extends Component {
 
   render() {
     return (
-
       <> 
-        <div className = "subtitle"> Right Wrong: An Interactive Story Writing Game</div>
-        <div className="margin container"> 
-          <Link to= "/CreateGame/" className ="card one"> Create Story</Link>
-          <Link to = "/JoinGame/" className="card two"> Join a Game</Link>
+        <div className = "title">Right Wrong</div>
+        <div className = "subtitle">Fill-in-the-Blanks. Wrong Answers Only.</div>
+        <div className="container"> 
+          <Link to= "/JoinGame/" href="#" className ="button join"> Join Game</Link>
         </div>
-        <hr className = "horizontal-line"></hr>
-        <div className = "subtitle"> How it works </div>
-        <div className = 'centeredText'>
-          <ol>
-            <li>A player completes a sentence and writes the beginning of the next sentence</li>
-            <li>The next player finishes that sentence and starts the next one</li>
-            <li>After everyone writes one sentence, the complete story is revealed</li>
-            <li>Did they <span className = 'italics'>right wrong? </span></li>
-          </ol>
+        <div className="container"> 
+          <Link to = "/CreateGame/" href="#" className="button"> Create Game</Link>
         </div>
         
-
-
-
-
         {/* <h2 class = 'document'> What you need to change</h2>
         <ul>
           <li>Change the Frontend CLIENT_ID for Google Auth (Skeleton.js)</li>
