@@ -34,6 +34,7 @@ class CreateGame extends Component {
     
     socket.on('displayUsers', (users) => {
       // do stuff
+      console.log(users)
       this.setState({joined_users: users});
     })
   }

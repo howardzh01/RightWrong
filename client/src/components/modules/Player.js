@@ -46,6 +46,9 @@ class Player extends Component {
       //   // navigate(`/Game/${this.props.game_id}`);
       // })
     }
+    // componentWillUnmount(){
+    //   socket.removeAllListeners();
+    // }
 
     handleInputChange = (event) =>{
         const value  =event.target.value;
