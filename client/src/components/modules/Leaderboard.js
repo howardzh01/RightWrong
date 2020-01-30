@@ -14,7 +14,7 @@ class Leaderboard extends Component {
 
   componentDidMount() {
       socket.on('leaderboard', (leaderboard) =>{
-          this.setState({leaderboard:leaderboard});
+          this.setState({leaderboard: leaderboard});
       })
   }
 

@@ -59,7 +59,7 @@ class JoinGame extends Component {
           value={this.state.inputText} 
           onChange={this.handleInputChange}
           />  
-          <div ontouchstart="">
+          <div>
             <div onClick={this.submitGameRequest} className = "inputbutton">
               <a href="#">play!</a>
             </div>
