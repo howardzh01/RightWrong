@@ -1,5 +1,7 @@
 # RIGHT WRONG
 
-A Cards-Against-Humanities-like party game where the judge comes up with the beginning of a sentence and the players complete it. Make sure the answers are wacky and wrong! The judge picks which sentence is the best and that persons wins some points!
+https://rightwrong.herokuapp.com/
 
-Project made in MIT WebLab 2020
+Inspired by Apples to Apples, this party game allows the judge to come up with the beginning of a sentence and the players to complete it. Make sure the answers are funny, wacky, and wrong! The judge picks which sentence is most entertaining and the player who wrote it recieves a point. The player with the most points wins the game!
+
+Website made at MIT WebLab 2020
