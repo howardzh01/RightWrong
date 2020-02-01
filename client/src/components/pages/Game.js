@@ -65,6 +65,7 @@ class Game extends Component {
 nextRound = () => {
 
     get('/api/isJudge', {game_id: this.props.game_id}).then((obj) => {
+      console.log('is judge', obj.isJudge)
       console.log('nextnow', obj.isJudge, this.state.isJudge)
       if(!obj.isJudge && !this.state.isJudge){ 
         console.log('reload')
