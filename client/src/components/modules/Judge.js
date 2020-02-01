@@ -26,7 +26,10 @@ class Judge extends Component {
   
     componentDidMount() {
       console.log('judge remounted')
-      post('/api/startRound', {game_id: this.props.game_id});
+      if(!this.props.hard_refresh)
+      {
+        post('/api/startRound', {game_id: this.props.game_id});
+      }
       socket.on('displaySentences', (sentenceMap) => {
         this.setState({sentenceMap: sentenceMap});
       })

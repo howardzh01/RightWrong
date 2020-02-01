@@ -146,6 +146,7 @@ router.post('/updateIntroSentence', auth.ensureLoggedIn, (req, res) => {
   gameObj = gameCodeToGameMap[req.body.game_id]
   gameObj.updateRoundIntro(req.body.intro)
   socket.getIo().in(req.body.game_id).emit('getIntro', req.body.intro);
+  console.log('socket submitted')
   res.send({});
 })
 
@@ -154,7 +155,6 @@ router.post('/updateWinner', auth.ensureLoggedIn, (req, res) => {
   gameObj = gameCodeToGameMap[req.body.game_id]
   gameObj.getCurrentRound().winner_userId = req.body.winner_id
   gameObj.usersToScore[req.body.winner_id] +=1 
-  console.log(gameObj.usersToScore)
   socket.getIo().in(req.body.game_id).emit('leaderboard', gameObj.usersToScore)
   socket.getIo().in(req.body.game_id).emit('revealWinner', req.body.winner_name)
   // console.log(gameObj.getCurrentRound())
@@ -162,6 +162,8 @@ router.post('/updateWinner', auth.ensureLoggedIn, (req, res) => {
 })
 
 router.post('/endRound', auth.ensureLoggedIn, (req, res) => {
+  gameObj = gameCodeToGameMap[req.body.game_id]
+  // gameObject.rounds[gameObject.length - 1].is_active = false
   socket.getIo().in(req.body.game_id).emit('roundOver', {});
   res.send({});
 })
@@ -193,7 +195,6 @@ router.post('/gameOver', auth.ensureLoggedIn, (req, res) => {
 router.get('/displayGames', auth.ensureLoggedIn, (req, res)=> {
   Game.find({users: req.user._id}).then((games) =>{
     // Game.find({}).then((gam) => {console.log(gam)})
-    console.log(games)
     res.send(games);
   });
 

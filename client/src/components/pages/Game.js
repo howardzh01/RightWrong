@@ -21,6 +21,7 @@ class Game extends Component {
       leaderboard: {},
       users: [],
       next_round: 0,
+      hard_refresh: false
     };
   }
 
@@ -28,23 +29,34 @@ class Game extends Component {
     
     document.title = "Game";
     console.log('remounteD?')
-    get('/api/gameObject', {game_id: this.props.game_id}).then((game) => {
-      this.setState({game: game, users: game.users, total_rounds: game.total_rounds});
+    if (window.performance && performance.navigation.type == 1) {
+      get('/api/gameObject', {game_id: this.props.game_id}).then((game) => {
+        let current_round = game.rounds[game.rounds.length-1]
+        this.setState({game: game, users: game.users, total_rounds: game.total_rounds, 
+          round_number: game.rounds.length, leaderboard: game.usersToScore, 
+        });
+        get('/api/whoami').then((user)=>{
+          this.setState({isJudge: current_round.judge._id === user._id})
 
-    });
-    get('/api/isJudge', {game_id: this.props.game_id}).then((obj) => {
-      this.setState({isJudge: obj.isJudge});
+        console.log('is judge', current_round.judge._id, user._id)
+        })
+      });
+      this.setState({hard_refresh: true})
       
-      // if(this.state.isJudge) {
-      //   post('/api/startRound', {game_id: this.props.game_id})
-      // }
-    });
-    
+      this.setState({next_round: this.state.next_round+1})
+    }
+    else{
+      get('/api/gameObject', {game_id: this.props.game_id}).then((game) => {
+        this.setState({game: game, users: game.users, total_rounds: game.total_rounds});
+  
+      });
+      get('/api/isJudge', {game_id: this.props.game_id}).then((obj) => {
+        this.setState({isJudge: obj.isJudge});
+      });
+    }
   socket.on('roundOver', () =>{
     console.log('roundOver')
     this.nextRound();
-    // window.location.replace("/game/" + this.props.game_id)
-    // navigate(`/Game/${this.props.game_id}`);
   })
   socket.on('updateRoundNumber', (round_number) =>{
     console.log('updated round number', round_number)
@@ -63,7 +75,7 @@ class Game extends Component {
 }
 
 nextRound = () => {
-
+    this.setState({hard_refresh: false})
     get('/api/isJudge', {game_id: this.props.game_id}).then((obj) => {
       console.log('is judge', obj.isJudge)
       console.log('nextnow', obj.isJudge, this.state.isJudge)
@@ -79,12 +91,6 @@ nextRound = () => {
     get('/api/gameObject', {game_id: this.props.game_id}).then((game) => {
     this.setState({game: game});
     })
-    
-
-
-    // if(this.state.isJudge) {
-    //   post('/api/startRound', {game_id: this.props.game_id})
-    // }
 };
 
   componentWillUnmount(){
@@ -99,7 +105,7 @@ nextRound = () => {
     this.state.users.map((user) => userIdMap[user._id] = user.name)
     return userIdMap
   }
-  //how/where will we check when round.active == false?
+
 
 
   render() {
@@ -134,7 +140,7 @@ nextRound = () => {
           {this.state.leaderboard !== 0 && (<div id = "judgeBorderDemo" className = "centeredText">
           {Object.keys(this.state.leaderboard).map((userId) => (<div key = {userId}> {this.generateUserIdMap()[userId]}: {this.state.leaderboard[userId]}</div>))}
           </div>)}
-          <Judge game_id = {this.props.game_id} userMap = {this.generateUserIdMap()} ></Judge>
+          <Judge game_id = {this.props.game_id} hard_refresh = {this.state.hard_refresh} userMap = {this.generateUserIdMap()} ></Judge>
           </>
         )
       }

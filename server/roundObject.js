@@ -7,6 +7,7 @@ class roundObject {
         this.intro_line = ""
         this.mapUserToSentence = {}
         this.winner_userId = undefined;
+        this.is_active = true
 
     }
 
