@@ -25,18 +25,32 @@ class CreateGame extends Component {
 
   componentDidMount() {
     document.title = "Game";
+
     if(this.props.userId){
       // console.log(this.state.game_id)
       post("/api/createGame", {game_id: this.state.game_id}).then((game) => {
         this.setState({game: game});
       })
+      socket.on('displayUsers', (users) => {
+        // do stuff
+        this.setState({joined_users: users});
+      })
+    }
+    else{
+      get('/api/whoami').then((user)=>{
+        post("/api/createGame", {game_id: this.state.game_id}).then((game) => {
+          this.setState({game: game});
+        });
+        socket.on('displayUsers', (users) => {
+          // do stuff
+          console.log(users)
+          this.setState({joined_users: users});
+        })
+      })
+      
     }
     
-    socket.on('displayUsers', (users) => {
-      // do stuff
-      console.log(users)
-      this.setState({joined_users: users});
-    })
+    
   }
 
   // componentDidUpdate(prevProps, prevState) {
@@ -49,9 +63,6 @@ class CreateGame extends Component {
 
   startGame = (event) => {
     if(this.state.joined_users.length <=1){
-      this.setState({
-        rounds: 0
-      });
       alert("Wait for more players!")
     }
     else if(this.props.userId)

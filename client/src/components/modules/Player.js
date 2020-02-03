@@ -31,6 +31,7 @@ class Player extends Component {
         this.setState({intro: intro});
       })
       socket.on('displaySentences', (sentenceMap) => {
+        console.log('player receive sentence')
         this.setState({sentenceMap: sentenceMap});
       })
       socket.on('revealWinner', (winner_name) => {

@@ -131,7 +131,6 @@ nextRound = () => {
         //render starter page
         return (
           <>
-
           <div className = 'subtitle'> You are the judge of round {this.state.round_number} of {this.state.total_rounds}</div>
           {/* <div>We are on round {this.state.round_number} of {this.state.game.total_rounds}</div> */}
           {this.state.users && Object.keys(this.state.leaderboard).length === 0 && (<div id = "judgeBorderDemo" className = "centeredText">

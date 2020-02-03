@@ -31,6 +31,7 @@ class Judge extends Component {
         post('/api/startRound', {game_id: this.props.game_id});
       }
       socket.on('displaySentences', (sentenceMap) => {
+        console.log('judge recieved socket')
         this.setState({sentenceMap: sentenceMap});
       })
       socket.on('revealWinner', (winner_name) => {

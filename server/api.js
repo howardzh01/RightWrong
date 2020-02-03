@@ -174,6 +174,7 @@ router.post('/submitSentence', auth.ensureLoggedIn, (req, res) => {
   gameObj = gameCodeToGameMap[req.body.game_id];
   gameObj.getCurrentRound().mapUserToSentence[req.user._id] = req.body.sentence;
   socket.getIo().in(req.body.game_id).emit('displaySentences', gameObj.getCurrentRound().mapUserToSentence);
+  console.log("displaySentences", gameObj.getCurrentRound().mapUserToSentence)
   res.send({})
 })
 //will write to mongoDB
